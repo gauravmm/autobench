@@ -7,7 +7,7 @@ params: 26B / 4B (MoE)
 engine: vLLM
 speculative: EAGLE3
 quant: NVFP4
-quant_rationale: NVIDIA NVFP4 base (modelopt) + RedHatAI's official EAGLE3 speculator — the fast quant plus lossless speculative decoding stacked together.
+quant_rationale: NVIDIA NVFP4 base (modelopt) + RedHatAI's official EAGLE3 speculator (RedHatAI/gemma-4-26B-A4B-it-speculator.eagle3) — the EAGLE3 line of the crossover figure.
 source_repo: nvidia/Gemma-4-26B-A4B-NVFP4
 download_url: https://huggingface.co/nvidia/Gemma-4-26B-A4B-NVFP4
 context: 65536
@@ -16,40 +16,25 @@ mm_served: false
 concurrency: 8
 tags: [gemma-4-26b-a4b, Google, Gemma, NVFP4, 16-40B, conc-8]
 status: done
-prefill_toks: 307.78
-decode_toks: 211.48
-mem_gb: 108.23
+prefill_toks: 270.31
+decode_toks: 230.18
+mem_gb: 107.48
 mem_source: system MemAvailable delta (10s sampling) — vLLM static KV reservation (util 0.85) + EAGLE3 head
-measured_on: 2026-06-23
-completed_at: 2026-06-23 00:48 +08
-engine_image: vllm/vllm-openai:cu130-nightly@sha256:3dbe092ec5b2cef63b6104d33fa75d6ce53a7870962529ada69f78bbbc38e776
+spec_acceptance: mean acceptance length 2.10 (1.90-2.25) · avg draft acceptance 37% (30-42%) · per-position ~0.58/0.33/0.19
+measured_on: 2026-07-03
+completed_at: 2026-07-03 17:54 +0800
+engine_image: vllm/vllm-openai:nightly-aarch64@sha256:e414712fdc04f61d98ccc58cb61232a0587a8c024544e9e6cf12f97b19b38172
 run_command: |
-  # vllm/vllm-openai:cu130-nightly. NVFP4 base + RedHatAI EAGLE3 speculator (draft model).
-  docker run -d --gpus all --ipc=host -p 8000:8000 \
-    -v ~/.cache/huggingface:/root/.cache/huggingface --env HF_TOKEN=*** \
-    vllm/vllm-openai:cu130-nightly nvidia/Gemma-4-26B-A4B-NVFP4 \
-    --host 0.0.0.0 --port 8000 --max-model-len 65536 \
-    --gpu-memory-utilization 0.85 --max-num-seqs 8 \
+  VLLM_IMAGE=vllm/vllm-openai:nightly-aarch64 scripts/bench-vllm-serving.sh nvidia/Gemma-4-26B-A4B-NVFP4 65536 8 700 600 256 \
     --speculative-config '{"model":"RedHatAI/gemma-4-26B-A4B-it-speculator.eagle3","method":"eagle3","num_speculative_tokens":3}'
-  python3 scripts/bench-serving.py --base-url http://localhost:8000 \
-    --model nvidia/Gemma-4-26B-A4B-NVFP4 \
-    --dataset benchmark_data/ShareGPT_V3_unfiltered_cleaned_split.json \
-    --num-prompts 500 --max-seconds 300 --concurrency 8 --max-tokens 256
+  # 596/700 prompts (hit the time cap), 0 errors, 607.2s. ready after 369s. TTFT median 217.9 ms, TPOT median 32.5 ms, req thr 0.982/s.
+  # SpecDecoding: mean acceptance length 2.10 (1.90-2.25) · avg draft acceptance 37% (30-42%) · per-position ~0.58/0.33/0.19.
 ---
 
-**Conc-8 point for the Gemma 4 26B-A4B EAGLE3 sweep — acceptance steady at ~2.15, confirming it's
-workload-driven; 0 errors.** NVIDIA NVFP4 base + RedHatAI EAGLE3 speculator on vLLM (cu130-nightly),
-ctx 65536, conc 8.
+**Decode 230.18 tok/s aggregate at concurrency 8.** NVFP4 + RedHatAI EAGLE3 speculator, conc 8, for the crossover figure.
 
-- **Load:** ready in **290 s**.
-- **Workload:** ShareGPT V3, concurrency 8. **278/500 completed, 0 errors** before the **300 s time cap**.
-- **Throughput:** prefill **307.78 tok/s**, decode **211.48 tok/s** aggregate (~26.4 tok/s/stream). TTFT
-  median **237 ms**, TPOT median **35.0 ms**.
-- **EAGLE3 acceptance — steady ~2.15.** Run-aggregate **mean acceptance length ~2.0–2.33 (centered ~2.15)**,
-  **avg draft acceptance ~33–44% (centered ~38%)**, per-position **~0.54–0.66 / 0.29–0.42 / 0.15–0.25** —
-  essentially unchanged from conc-1 (~2.0), confirming EAGLE3 acceptance is workload- not
-  concurrency-driven here (the correct behavior, unlike gpt-oss). Drafts ~330 tok/s, accepts ~120 tok/s.
-- **Memory: 108.2 GB** = vLLM 0.85 reservation + EAGLE3 head, not footprint.
-- **Sweep shape:** decode 48 (c1) → 211 agg (c8) → 541 agg (c32) — aggregate throughput scales with batch
-  while per-stream decode falls (48 → 26.4 → ~17), the expected trade-off. Acceptance ~2.0–2.15 throughout.
-  The EAGLE3 head is a real ~2× draft on ShareGPT (vs MTP's ~3× on the dense Gemmas), and rock-stable.
+- **Image (pinned):** `vllm/vllm-openai:nightly-aarch64` @ `sha256:e414712fdc04…` — the SINGLE image for all 24 cells of this figure. Ready after **369 s**.
+- **Workload:** ShareGPT V3, concurrency 8. **596/700 completed, 0 errors** before the **600 s time cap**.
+- **Throughput:** decode **230.18 tok/s** aggregate, prefill 270.31 tok/s. TTFT median 217.9 ms, TPOT median 32.5 ms, req throughput 0.982/s.
+- **Spec-decode acceptance:** mean acceptance length 2.10 (1.90-2.25) · avg draft acceptance 37% (30-42%) · per-position ~0.58/0.33/0.19 (num_speculative_tokens=3).
+- **Memory: 107.48 GB** = vLLM `--gpu-memory-utilization 0.85` reservation, not the model footprint.
