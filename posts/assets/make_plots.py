@@ -22,7 +22,7 @@ OUT.mkdir(exist_ok=True)
 # dataviz palette (light mode, validated): neutral baseline + blue/aqua categorical slots.
 BASE, MTP, AQUA = "#898781", "#2a78d6", "#1baf7a"
 EAGLE = "#c96a2b"  # 4th categorical slot (burnt orange) — distinct from blue/aqua/grey
-sns.set_theme(style="whitegrid", font="sans-serif")
+sns.set_theme(style="whitegrid", font="sans-serif", rc={"grid.color": "#eeeeee"})
 
 # ponytail: static SVG for a Jekyll post — no hover/dark-mode/table-view layer (those
 # are the interactive-HTML path). Relief rule met by direct value labels on every bar.
@@ -79,7 +79,7 @@ def mtp_vs_dflash():
     for method, color in (("base", BASE), ("MTP", MTP), ("DFlash", AQUA)):
         pts = df[df.method == method].sort_values("concurrency")
         end = pts.iloc[-1]
-        ax.annotate(f"{method} {end.decode:.0f}", (end.concurrency, end.decode),
+        ax.annotate(f"{method} {end.decode:.0f}/s", (end.concurrency, end.decode),
                     xytext=(6, 0), textcoords="offset points", va="center",
                     fontsize=9, color=color, fontweight="bold")
         start = pts.iloc[0]
@@ -87,14 +87,23 @@ def mtp_vs_dflash():
                     xytext=(-7, left_dy[method]), textcoords="offset points",
                     ha="right", va="center", fontsize=9, color=color, fontweight="bold")
 
+    # conc-32 = the headline operating point: thick vertical rule + bare value labels there.
+    ax.axvline(32, color="#eeeeee", lw=3, zorder=0)  # match gridline grey
+    c32 = {"base": (430.76, BASE, dict(xytext=(0, 7), va="bottom")),     # above
+           "MTP": (541.26, MTP, dict(xytext=(0, 7), va="bottom")),      # above
+           "DFlash": (407.07, AQUA, dict(xytext=(0, -8), va="top"))}    # below
+    for _m, (val, color, kw) in c32.items():
+        ax.annotate(f"{val:.0f}/s", (32, val), textcoords="offset points",
+                    ha="center", color=color, fontsize=9, fontweight="bold", **kw)
+
     # crossover: DFlash leads only at conc-1 (101.9 > 93.9); MTP is ahead from conc-2 on.
-    ax.annotate("MTP overtakes\nby conc-2", (2, 154), xytext=(2.9, 108),
-                textcoords="data", fontsize=8, color="#52514e",
-                arrowprops=dict(arrowstyle="->", color="#898781", lw=1))
+    ax.annotate("MTP overtakes\nby conc-2", (2, 161.21), xytext=(1.6, 300),
+                textcoords="data", ha="center", fontsize=8, color="black",
+                arrowprops=dict(arrowstyle="->", color="black", lw=1, shrinkA=4, shrinkB=8))
     # MTP knees at c128 (750, +12% over c64); DFlash flat from c32 (~425); c128 is the memory ceiling.
-    ax.annotate("MTP knees (~4 GB free);\nDFlash flat, base still climbing", (128, 750),
-                xytext=(10, 250), textcoords="data", fontsize=8, color="#52514e",
-                arrowprops=dict(arrowstyle="->", color="#898781", lw=1))
+    ax.annotate("DFlash is flat, MTP is saturating,\nbut base still climbs", (64, 420.35),
+                xytext=(90, 193), textcoords="data", fontsize=8, color="black", ha="center",
+                arrowprops=dict(arrowstyle="->", color="black", lw=1, shrinkA=4, shrinkB=8))
 
     ax.set_xlabel("concurrency (requests)")
     ax.set_ylabel("decode tok/s (aggregate)")
@@ -129,28 +138,42 @@ def gemma_26b_crossover():
     # direct value labels at both ends (relief rule — legend colors go sub-3:1 on white).
     # conc-1 cluster: base 29 · EAGLE3 50 · MTP 57 · diffusion 116 — nudge the close EAGLE3/MTP apart.
     left_dy = {"base": 0, "EAGLE3": -6, "MTP": 6, "diffusion": 0}
+    # MTP & EAGLE3 both end at conc-128; split them (MTP above, EAGLE3 below) so the labels clear.
+    end_kw = {"base": dict(xytext=(6, 0), ha="left", va="center"),
+              "MTP": dict(xytext=(0, 7), ha="center", va="bottom"),     # above the line at c128
+              "EAGLE3": dict(xytext=(6, -4), ha="left", va="center"),   # right of the node, nudged down
+              "diffusion": dict(xytext=(6, 0), ha="left", va="center")}
     for method in order:
         pts = df[df.method == method].sort_values("concurrency")
         end = pts.iloc[-1]
-        # diffusion ends far right at ~200; label below the point so it doesn't push the x-margin.
-        end_kw = (dict(xytext=(0, -8), ha="center", va="top") if method == "diffusion"
-                  else dict(xytext=(6, 0), ha="left", va="center"))
-        ax.annotate(f"{method} {end.decode:.0f}", (end.concurrency, end.decode),
+        # diffusion: keep only the word to the right; its 201/s value goes below at conc-32 (see c32 group).
+        end_text = "diffusion" if method == "diffusion" else f"{method} {end.decode:.0f}/s"
+        ax.annotate(end_text, (end.concurrency, end.decode),
                     textcoords="offset points", fontsize=9,
-                    color=colors[method], fontweight="bold", **end_kw)
+                    color=colors[method], fontweight="bold", **end_kw[method])
         start = pts.iloc[0]
         ax.annotate(f"{start.decode:.0f}", (start.concurrency, start.decode),
                     xytext=(-7, left_dy[method]), textcoords="offset points",
                     ha="right", va="center", fontsize=9, color=colors[method], fontweight="bold")
 
+    # conc-32 = headline operating point: thick gridline-grey rule + bare /s labels below each line.
+    ax.axvline(32, color="#eeeeee", lw=3, zorder=0)  # match gridline grey
+    c32 = {"base": (421.13, dict(xytext=(0, -8), va="top")),        # below
+           "MTP": (696.98, dict(xytext=(0, 7), va="bottom")),      # above
+           "EAGLE3": (596.32, dict(xytext=(0, -8), va="top")),     # below
+           "diffusion": (200.66, dict(xytext=(0, -8), va="top"))}  # below (word stays to the right)
+    for method, (val, kw) in c32.items():
+        ax.annotate(f"{val:.0f}/s", (32, val), textcoords="offset points",
+                    ha="center", color=colors[method], fontsize=9, fontweight="bold", **kw)
+
     # crossover: diffusion wins low batch but saturates ~200; autoregressive lines scale past it.
-    ax.annotate("diffusion saturates ~200;\nspec scales past it", (8, 199),
-                xytext=(2.2, 480), textcoords="data", fontsize=8, color="#52514e",
-                arrowprops=dict(arrowstyle="->", color="#898781", lw=1))
+    ax.annotate("diffusion saturates ~200;\nautoregressive scales past it", (16, 199.29),
+                xytext=(16, 88), textcoords="data", ha="center", fontsize=8, color="black",
+                arrowprops=dict(arrowstyle="->", color="black", lw=1, shrinkA=4, shrinkB=8))
     # ceiling: MTP/EAGLE3 peak at c128 then OOM at c256; base is leaner, survives to 1366.
     ax.annotate("MTP & EAGLE3 hit the\nmemory wall (OOM at c256);\nleaner base survives", (128, 1380),
-                xytext=(4, 900), textcoords="data", fontsize=8, color="#52514e",
-                arrowprops=dict(arrowstyle="->", color="#898781", lw=1))
+                xytext=(4, 900), textcoords="data", fontsize=8, color="black",
+                arrowprops=dict(arrowstyle="->", color="black", lw=1, shrinkA=4, shrinkB=8))
 
     ax.set_xlabel("concurrency (requests)")
     ax.set_ylabel("decode tok/s (aggregate)")
