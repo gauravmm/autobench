@@ -71,3 +71,16 @@ wall** — the NVFP4 target itself serves fine (base/MTP rows). It unblocks if R
 publishes a 12B EAGLE3 head in speculators format. Meanwhile **12B spec-decode is already covered by MTP**
 (782.4 tok/s, +55% over base), and the "NVFP4 MTP beats NVFP4 EAGLE3 on the heavier models" story is
 proven on the 26B-A4B and 31B rows regardless.
+
+**RE-VERIFIED 2026-07-04 (HF API + raw configs, not just search) — unchanged, still blocked:**
+- `deepseek-ai/eagle3_gemma4_12b_ttt7` `config.json` still `architectures: ["Gemma4Eagle3Model"]` with
+  **no** `speculators_config`/`auto_map` → vLLM still rejects; vLLM has not added that class.
+- `BCCard/MoAI-gemma-4-12B-it-speculator.eagle3` re-checked: **is** correct vLLM format
+  (`Eagle3DraftModel` + `speculators_config` + `auto_map`, bf16 draft, targets a `gemma-4-12B`
+  Gemma4Unified verifier — would pair with the NVFP4 target). But still **0 downloads / 0 likes**,
+  created 2026-07-02, ships a raw training dump (`optimizer_state_dict.pt`, `training_state.json`,
+  `val_metrics.json`) + a `config.py` executed via `auto_map`/trust-remote-code. **Untrusted — user
+  declined to run it as an exception (2026-07-04); left blocked.**
+- No RedHatAI 12B head (still only 26B-A4B + 31B). AEON-7 now ships a **31B** `eagle3-NVFP4` repackage
+  and thoughtworks a **31B** head, but **no 12B** anywhere trusted. (Trusted-but-off-vLLM alternative:
+  the deepseek SpecForge head on **SGLang** — not pursued, breaks the same-engine 12B comparison.)
