@@ -61,6 +61,35 @@ benchmark. Cap the ShareGPT prompt count (`--num-prompts` / equivalent) at ~1000
 crosses 15 min. Note in the config if a run hit the time cap before the entry cap (signals a slow path
 worth flagging).
 
+## Unified-memory ceiling & the mem-watchdog (GB10) — READ before high-concurrency sweeps
+
+**CPU and GPU share ONE 121 GB pool, and a vLLM run can HARD-CRASH/reboot the whole box.** vLLM
+reserves ~`gpu-memory-utilization`·121 GB of KV up front; then **CUDA-graph capture + activation
+buffers pile on TOP of that reservation as `--max-num-seqs` grows**. Past ~conc-64 at ctx 65536 the
+free headroom collapses to a few GB and a GPU unified alloc that can't be satisfied takes the kernel
+down — **no graceful OOM-kill, the machine reboots.**
+
+- **`mem_gb` is a DELTA from the ~118 GB idle baseline, so read it as "used", and 121 − 118 ≈ 3 GB is
+  all the slack.** Observed 2026-07-04 (gemma-4 26B-A4B NVFP4+MTP, util 0.85, ctx 65536):
+  c64 `mem_gb` 110.6 → **~8 GB free**; c128 114.4 → **~4 GB free** (already marginal); c256 118.3 →
+  **~0.2 GB free** (survived only because the run collapsed to ~9 active seqs). Launching qwen-mtp
+  (35B, heavier) at c64 right after the c256 collapse **rebooted the box.**
+- **Always run high-concurrency (≥ c64) sweeps under `scripts/mem-watchdog.sh`.** It polls
+  `MemAvailable` every 0.25 s and `docker kill`s the `vllm-*` container the instant free memory drops
+  below a floor (default **6 GB**), converting a machine crash into a killed container + a recorded
+  "memory ceiling". Arm it in the **background before** launching the container (graph capture spikes
+  memory during load/warmup, not just serving):
+  `scripts/mem-watchdog.sh 6 vllm- 0.25 & ` → run the wrapper → `kill %1`. It writes
+  `$WATCHDOG_TRIPFILE` (default `/tmp/mem-watchdog.trip`) on a trip; a tripped run = the memory ceiling.
+- **A watchdog trip IS a valid result** — record the config page as the ceiling point (note it tripped,
+  at what free-mem, and that it is memory-bound). Don't retry the identical config expecting success.
+- **Between runs, let `MemAvailable` recover to ~118 GB before launching the next** (the c256→qwen
+  cascade crash came from launching while the box was still near-zero). `docker ps` empty ≠ memory
+  reclaimed; check `/proc/meminfo`.
+- **To push a line PAST its 0.85-util memory ceiling** (get a real compute-scaling point instead of an
+  OOM), drop `--gpu-memory-utilization` (e.g. 0.78) to shrink the reservation and free headroom for
+  graphs — but **label it a separate util-adjusted regime** (it no longer splices onto the 0.85 curve).
+
 ## Policy
 
 - **Run order:** generally do the **headliners first** (the `Spark recipe` / best-documented
