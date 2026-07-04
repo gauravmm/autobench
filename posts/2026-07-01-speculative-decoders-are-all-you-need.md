@@ -2,7 +2,9 @@
 
 ---
 
-**TL;DR:** run native MTP where the model has it; test EAGLE3 where it doesn't. On one DGX Spark the fastest config we measured at 32 concurrent threads is [Gemma-4-26B-A4B NVFP4 + MTP](https://gauravmm.github.io/autobench/tags/model/#gemma-4-26b-a4b) at **697.0 tok/s**, with [Qwen3.6-35B-A3B NVFP4 + MTP](https://gauravmm.github.io/autobench/tags/model/#qwen3-6-35b-a3b) close behind at **541.3 tok/s**.
+**TL;DR:** run native MTP where the model has it; test EAGLE3 where it doesn't. For agentic or coding use on one DGX Spark, use [Gemma-4-26B-A4B NVFP4 + MTP](https://gauravmm.github.io/autobench/configs/gemma-4-26b-a4b-it-vllm-nvfp4-mtp/) at **697.0 tok/s**, or [Qwen3.6-35B-A3B NVFP4 + MTP](https://gauravmm.github.io/autobench/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp/) close behind at **541.3 tok/s**, both at 32 concurrent threads.
+
+These were [autonomously benchmarked](https://gauravmm.github.io/autobench/) by Opus 4.8 on an NVIDIA DGX Spark, generously provided by [Ray Aun Fan](https://www.linkedin.com/in/rayaunfan).
 
 ---
 
@@ -221,23 +223,23 @@ A brand-new technique called [DDTree](https://liranringel.github.io/ddtree/) (ar
 <span class="sub"><span class="ell">…</span> <span class="tok c5">across</span><span class="tok c0">the</span><span class="tok c1">pond</span><span class="tok c2">.</span></span>
 </p>
 
-This allows them to effectively hedge the continuation, reducing its brittleness. We measured the performance of this setup using the research-grade code on our single DGX Spark and obtained an approximately 2.8× speedup.
+This allows them to effectively hedge the continuation, reducing its brittleness. We measured the performance of this setup using the research-grade code on our single DGX Spark and obtained a small speedup:
 
-| workload | method | accept-len | decode tok/s | our speedup | paper speedup |
+| workload | metric | none | DFlash (single line) | **DDTree (budget 64)** | DDTree (budget 256) |
 |---|---|--:|--:|--:|--:|
-| chat (mt-bench) | none | 1.00 | 18.52 | — | — |
-| | DFlash (single line) | 2.25 | 16.95 | **0.92×** | 2.04× |
-| | **DDTree (budget 64)** | 3.22 | **20.75** | **1.12×** | 3.27× |
-| | DDTree (budget 256) | 3.69 | 17.32 | 0.94× | |
-| code (HumanEval) | none | 1.00 | 17.66 | — | — |
-| | DFlash (single line) | 7.96 | 47.87 | **2.7×** | 6.09× |
-| | **DDTree (budget 64)** | 9.74 | **49.34** | **2.8×** | 8.22× |
-| | DDTree (budget 256) | 10.50 | 41.30 | 2.3× | |
+| chat (mt-bench) | accept-len | 1.00 | 2.25 | 3.22 | 3.69 |
+| | decode tok/s | 18.52 | 16.95 | **20.75** | 17.32 |
+| | our speedup | — | **0.92×** | **1.12×** | 0.94× |
+| | paper speedup | — | 2.04× | 3.27× | |
+| code (HumanEval) | accept-len | 1.00 | 7.96 | 9.74 | 10.50 |
+| | decode tok/s | 17.66 | 47.87 | **49.34** | 41.30 |
+| | our speedup | — | **2.7×** | **2.8×** | 2.3× |
+| | paper speedup | — | 6.09× | 8.22× | |
 
 **Table 5 — DDTree recovers DFlash's loss.** Qwen3-Coder-30B-A3B at batch-1 in the paper's PyTorch harness; the paper reports 8.22× lossless on HumanEval; we measure ~2.8×. Paper columns: [DDTree paper](https://arxiv.org/abs/2604.12989) Table 1, Qwen3-Coder-30B, temp 0.
 {: .figcaption}
 
-Where the workload already suits DFlash (code), DDTree performs about the same. On the chat workload, where DFlash fails, DDTree rescues its performance.
+Where the workload already suits DFlash (code), DDTree performs about the same. On the chat workload, where DFlash fails, DDTree rescues its performance. The speedup depends heavily on how much spare compute the hardware has, so the paper's claimed speedups (on high-end server hardware) are substantially higher than on our little DGX Spark.
 
 **[Rule 1 — Drafters trade compute for speed](#drafters-trade-compute-for-speed).** Even with the tree, there's a tradeoff between the tree budget and time. Even though the larger 256 budget has a higher acceptance, it is *slower* than budget 64 both times. The extra acceptance costs more to verify than it saves.
 
@@ -249,15 +251,17 @@ This is new technology, hot off the presses, so it isn't in vLLM or [SGLang](htt
 
 DFlash (and DDTree) use a diffusion-based drafter that fills in a whole block of future positions at once, rather than token-by-token. This gives them tremendous speed, but lower accuracy.
 
-Google is taking diffusion all the way into the *target* model with [DiffusionGemma](https://gauravmm.github.io/autobench/tags/model/#diffusiongemma-26b-a4b) — no drafter, no verify pass, the whole model generates 256-token blocks by diffusion and self-corrects as it goes. On the Spark we measured it at **[116.0 tok/s at batch-1](https://gauravmm.github.io/autobench/configs/diffusiongemma-26b-a4b-vllm-nvfp4-c1/)** and **[200.7 tok/s at conc-32](https://gauravmm.github.io/autobench/configs/diffusiongemma-26b-a4b-vllm-nvfp4/)** (NVFP4, 107 GB peak). That batch-1 lead is real but doesn't hold: its throughput is nearly flat with concurrency, so the autoregressive Gemma-4 configs — with or without a drafter — sail past it as batch grows (the diffusion line in [Figure 3](#fig-gemma-26b-crossover)). The catch is the one Google admits: output quality lands below the autoregressive Gemma-4 it's built on.
+Google is taking diffusion all the way into the *target* model with [DiffusionGemma](https://gauravmm.github.io/autobench/tags/model/#diffusiongemma-26b-a4b) — no drafter, no verify pass, the whole model generates 256-token blocks by diffusion and self-corrects as it goes. On the Spark we measured the single-concurrency decode at **[116.0 tok/s at batch-1](https://gauravmm.github.io/autobench/configs/diffusiongemma-26b-a4b-vllm-nvfp4-c1/)** ([Figure 3](#fig-gemma-26b-crossover)). That batch-1 lead is real but doesn't hold: its throughput is nearly flat with concurrency, so the autoregressive Gemma-4 configs — with or without a drafter — sail past it as batch grows (the diffusion line in [Figure 3](#fig-gemma-26b-crossover)). The catch is that output quality lands significantly below the autoregressive Gemma-4 it's built on.
 
-TODO: Add a reference to Nemotron Twotowers.
+NVIDIA takes a subtler route with [Nemotron-Labs-TwoTower](https://arxiv.org/abs/2606.26493), freezing a standard autoregressive model (Nemotron-3-Nano-30B-A3B) and training a denoiser on top of it. This sidesteps the quality hit DiffusionGemma pays (claimed to keep **98.7%** of the benchmark quality), while achieving a **×2.42×** speedup. The interesting twist is that the same architecture can both verify and *speculate*, blurring the line between a diffusion target and a drafter.
+
+Full two-tower decoding is the most interesting point on the diffusion-vs-autoregressive spectrum right now, and is worth watching closely in the near future.
 
 ### Drafter-assisted prefill
 
 Everything we've discussed here speeds up token output, but there may also be a way to accelerate the prefill stage (where the model reads your entire prompt before it says anything) with a drafter.
 
-**Drafter-assisted prefill** is an area under active research. The basic concept is for the small model to skim the whole prompt and flag which tokens actually matter; the big model prefills only those important tokens. Fewer tokens through the expensive model means a faster first token, up to ~7.7× faster time-to-first-token on a 405B model ([SpecPrefill](https://arxiv.org/abs/2502.02789), ICML 2025) potentially using the *same* drafter as decode.
+Drafter-assisted prefill is an area under active research. The basic concept is for the small model to skim the whole prompt and flag which tokens actually matter; the big model prefills only those important tokens. Fewer tokens through the expensive model means a faster first token, up to ~7.7× faster time-to-first-token on a 405B model ([SpecPrefill](https://arxiv.org/abs/2502.02789), ICML 2025) potentially using the *same* drafter as decode.
 
 For long-context, low-concurrency work (exactly the Spark's niche) it's the natural next thing to try.
 
