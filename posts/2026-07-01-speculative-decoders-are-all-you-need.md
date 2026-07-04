@@ -245,6 +245,8 @@ DFlash (and DDTree) use a diffusion-based drafter that fills in a whole block of
 
 Google is taking diffusion all the way into the *target* model with [DiffusionGemma](https://gauravmm.github.io/autobench/tags/model/#diffusiongemma-26b-a4b) — no drafter, no verify pass, the whole model generates 256-token blocks by diffusion and self-corrects as it goes. On the Spark we measured it at **[122.7 tok/s at batch-1](https://gauravmm.github.io/autobench/configs/diffusiongemma-26b-a4b-vllm-nvfp4-c1/)** and **[183.2 tok/s at conc-32](https://gauravmm.github.io/autobench/configs/diffusiongemma-26b-a4b-vllm-nvfp4/)** (NVFP4, right at the 121 GB ceiling). The catch is the one Google admits: output quality lands below the autoregressive Gemma-4 it's built on.<!-- TODO(gemma-rerun): 122.7 (batch-1) and 183.2 (conc-32) DiffusionGemma figures + the 121 GB ceiling note are being re-measured on the pinned image; see spec/EXPERIMENTS.md -->
 
+TODO: Add a reference to Nemotron Twotowers.
+
 ### Drafter-assisted prefill
 
 Everything we've discussed here speeds up token output, but there may also be a way to accelerate the prefill stage (where the model reads your entire prompt before it says anything) with a drafter.
@@ -255,8 +257,6 @@ For long-context, low-concurrency work (exactly the Spark's niche) it's the natu
 
 ## So... what should I do?
 
-For a general chat gateway on one Spark, native MTP is the default winner for the Qwen3.6 / Gemma-4 families — it won at *every* concurrency we measured, +26-56% even with the batch full. EAGLE3 is competitive only with a validated, workload-matched draft; DFlash is a single-stream / latency-critical special case.
-
-Two rules fall out of the data. First, **the drafter's cost decides the curve**: a near-free drafter (native MTP, ~66% acceptance) wins everywhere, while a heavy one (DFlash, ~3.7-of-11) buys low-concurrency latency with spare parallelism and gives it back under load. Second, **speculative decoding can't fix a bad config**: 35B-A3B NVFP4 with no speculative decoder out-decodes FP8 with MTP (430.8 vs 407.9), and vLLM with no speculative decoder out-decodes SGLang with the best draft (252.8 vs 171.9). Pick the right engine and quant first — the speculative decoder is a multiplier, not a rescue.
-
-And if your workload is *code*, the block-diffusion drafter is the sleeper: 2.7× at batch-1 in the research harness today, and more once DDTree lands in a serving engine.
+1. Look at the five rules above
+2. Benchmark your model against your actual workload.
+3. Keep an eye out for advances in this area, both in speculators and in fundamental models.
