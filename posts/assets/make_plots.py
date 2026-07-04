@@ -67,7 +67,7 @@ def mtp_vs_dflash():
     ax.set_xscale("log", base=2)
     ax.set_yscale("log", base=10)
     ax.set_xticks(sorted(df.concurrency.unique()))
-    ax.set_yticks([100, 200, 300, 400, 500])  # horizontal gridlines every 100
+    ax.set_yticks([100, 200, 300, 500, 750])
     ax.xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
     ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
     ax.yaxis.set_minor_locator(matplotlib.ticker.NullLocator())
@@ -88,8 +88,12 @@ def mtp_vs_dflash():
                     ha="right", va="center", fontsize=9, color=color, fontweight="bold")
 
     # crossover: DFlash leads only at conc-1 (101.9 > 93.9); MTP is ahead from conc-2 on.
-    ax.annotate("MTP overtakes\nby conc-2", (2, 154), xytext=(2.9, 110),
+    ax.annotate("MTP overtakes\nby conc-2", (2, 154), xytext=(2.9, 108),
                 textcoords="data", fontsize=8, color="#52514e",
+                arrowprops=dict(arrowstyle="->", color="#898781", lw=1))
+    # MTP knees at c128 (750, +12% over c64); DFlash flat from c32 (~425); c128 is the memory ceiling.
+    ax.annotate("MTP knees (~4 GB free);\nDFlash flat, base still climbing", (128, 750),
+                xytext=(10, 250), textcoords="data", fontsize=8, color="#52514e",
                 arrowprops=dict(arrowstyle="->", color="#898781", lw=1))
 
     ax.set_xlabel("concurrency (requests)")
@@ -116,7 +120,7 @@ def gemma_26b_crossover():
     ax.set_xscale("log", base=2)
     ax.set_yscale("log", base=10)
     ax.set_xticks(sorted(df.concurrency.unique()))
-    ax.set_yticks([30, 50, 100, 200, 400, 700])
+    ax.set_yticks([30, 50, 100, 200, 400, 700, 1400])
     ax.xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
     ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
     ax.yaxis.set_minor_locator(matplotlib.ticker.NullLocator())
@@ -141,7 +145,11 @@ def gemma_26b_crossover():
 
     # crossover: diffusion wins low batch but saturates ~200; autoregressive lines scale past it.
     ax.annotate("diffusion saturates ~200;\nspec scales past it", (8, 199),
-                xytext=(2.2, 340), textcoords="data", fontsize=8, color="#52514e",
+                xytext=(2.2, 480), textcoords="data", fontsize=8, color="#52514e",
+                arrowprops=dict(arrowstyle="->", color="#898781", lw=1))
+    # ceiling: MTP/EAGLE3 peak at c128 then OOM at c256; base is leaner, survives to 1366.
+    ax.annotate("MTP & EAGLE3 hit the\nmemory wall (OOM at c256);\nleaner base survives", (128, 1380),
+                xytext=(4, 900), textcoords="data", fontsize=8, color="#52514e",
                 arrowprops=dict(arrowstyle="->", color="#898781", lw=1))
 
     ax.set_xlabel("concurrency (requests)")

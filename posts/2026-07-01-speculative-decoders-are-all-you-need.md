@@ -46,7 +46,7 @@ As of right now, there are three flavours that are common (and one emerging).
 - **[DFlash](https://github.com/z-lab/dflash):** an external diffusion-based drafter that speculates many (up to 16) tokens per step. High fixed cost, with the chance for huge speedups.
 - **[DDTree](https://liranringel.github.io/ddtree/) (emerging):** DFlash with a tree instead of a single draft line. Amazingly quick when it works.
 
-The numbers below come from 149 benchmark configs run on an NVIDIA DGX Spark, generously provided by [Ray Aun Fan](https://www.linkedin.com/in/rayaunfan) — thank you, Ray! These benchmarks were run semi-autonomously by an Opus 4.8 agent over about a week. Full results are [on the autobench website](https://gauravmm.github.io/autobench/).
+The numbers below come from 181 benchmark configs run on an NVIDIA DGX Spark, generously provided by [Ray Aun Fan](https://www.linkedin.com/in/rayaunfan) — thank you, Ray! These benchmarks were run semi-autonomously by an Opus 4.8 agent over about a week. Full results are [on the autobench website](https://gauravmm.github.io/autobench/). Where not specified, the concurrency of the test is 32.
 
 ## Five rules of speculation
 
@@ -56,10 +56,10 @@ The drafter runs first and proposes a short continuation — 3 tokens for MTP, 5
 
 Once the GPU is saturated, the drafter must compete with real requests for compute. Native MTP drafters are almost free and provide a fantastic tradeoff. It's the heavy external DFlash drafters that *spend spare compute to buy low-concurrency throughput* — and a busy server has none to spend.
 
-![Decode throughput vs concurrency for Qwen3.6-35B-A3B NVFP4 on vLLM, log-log, three lines: no-spec base, MTP, and DFlash. At conc-1 the three cluster (base 75, MTP 94, DFlash 100); MTP then leads at every concurrency (541 tok/s at conc-32); DFlash beats base only at low batch and dips below the no-spec baseline by conc-32 (407 vs base 431).](assets/plots/mtp_vs_dflash_35b.svg)
+![Decode throughput vs concurrency for Qwen3.6-35B-A3B NVFP4 on vLLM, log-log, three lines: no-spec base, MTP, and DFlash. At conc-1 the three cluster (base 75, MTP 94, DFlash 100); MTP then leads at every concurrency, climbing to 750 tok/s at conc-128 where it knees against the memory wall; DFlash beats base only at low batch, then flattens around 425 tok/s and sits below the no-spec baseline from conc-32 on, while the base keeps climbing to 676 at conc-128.](assets/plots/mtp_vs_dflash_35b.svg)
 {: #fig-concurrency-crossover}
 
-**Figure 1 — The concurrency crossover.** Decode tok/s vs concurrency for Qwen3.6-35B-A3B NVFP4 on vLLM: MTP leads at every batch size, while the heavy DFlash drafter beats the no-spec baseline only at low concurrency and slips below it by conc-32.
+**Figure 1 — The concurrency crossover.** Decode tok/s vs concurrency for Qwen3.6-35B-A3B NVFP4 on vLLM: MTP leads at every batch size and knees around 750 tok/s at conc-128, while the heavy DFlash drafter beats the no-spec baseline only at low concurrency and slips below it from conc-32 on.
 {: .figcaption}
 
 Even with spare compute, the heavy DFlash drafter barely beats the built-in MTP; once the batch saturates the GPU it loses badly, even slipping below the no-drafter baseline at conc-32 (407 vs 431). The trade-off curve belongs to the *drafter's cost*, not to speculation itself.
@@ -68,7 +68,9 @@ As with everything in LLMs, the exact tradeoff curve is a fingerprint of the met
 
 ### Rule 2 — Agreement is critical to performance {#agreement-is-critical-to-performance}
 
-In one target forward pass, the model computes the probability of each speculated token in parallel. Where the target agrees, we **pretend the token was there all along**; at the first disagreement we discard the rest and let the target generate that token normally, then re-speculate.
+In one target forward pass, the model computes the probability of each speculated token in parallel. Where the target agrees, we **pretend the token was there all along**; at the first disagreement we discard the rest and let the target generate that token normally. This means that a the agreement between the drafter and the final model is the single biggest factor in the final speedup.
+
+Agreement rates can vary wildly based on methods and tasks. Briefly:
 
 - **MTP** ≈ 3.0 of 4 ([Qwen3.6-27B](https://gauravmm.github.io/autobench/tags/model/#qwen3-6-27b), [35B-A3B](https://gauravmm.github.io/autobench/tags/model/#qwen3-6-35b-a3b)) — that's ~2 of 3 drafted tokens accepted plus the one free "bonus" token from the verify pass. Very efficient.
 - **EAGLE3** ≈ 2.0-2.4 of 4 ([Gemma-4](https://gauravmm.github.io/autobench/tags/model/#gemma-4-31b); [gpt-oss](https://gauravmm.github.io/autobench/tags/model/#gpt-oss-120b) only with a workload-matched draft).
@@ -146,10 +148,10 @@ One interesting discovery we made is that minor engine details can greatly affec
 
 Gemma-4 is the only family here with *both* a native assistant-MTP path and grafted EAGLE3 heads, so it exercises the widest spread of the rules. Because the same model also carries a grafted **[EAGLE3 head (596.3)](https://gauravmm.github.io/autobench/configs/gemma-4-26b-a4b-it-vllm-nvfp4-eagle3/)**, this is the one place we can put the two drafters head-to-head — and native MTP wins.
 
-![Decode throughput vs concurrency for the Gemma-4 26B-A4B family on vLLM NVFP4, log-log, four lines: no-spec base, MTP, EAGLE3, and DiffusionGemma. DiffusionGemma is fastest at batch-1 (116 tok/s) but saturates near 200 tok/s and stays flat; the three autoregressive lines climb with concurrency and overtake it — MTP leads past conc-4 and is still rising at 697 tok/s at conc-32 (the sweep's cap, memory-bound not saturated), EAGLE3 at 596, no-spec base at 421.](assets/plots/gemma_26b_crossover.svg)
+![Decode throughput vs concurrency for the Gemma-4 26B-A4B family on vLLM NVFP4, log-log, four lines: no-spec base, MTP, EAGLE3, and DiffusionGemma. DiffusionGemma is fastest at batch-1 (116 tok/s) but saturates near 200 tok/s and stays flat; the three autoregressive lines climb with concurrency and overtake it. MTP leads from conc-4 up to its peak of 1380 tok/s at conc-128, with EAGLE3 (1210) behind it, then both hit the 121 GB memory wall and OOM at conc-256; the leaner no-spec base carries a smaller footprint and scales on to 1366 tok/s at conc-256.](assets/plots/gemma_26b_crossover.svg)
 {: #fig-gemma-26b-crossover}
 
-**Figure 3 — Gemma-4 26B-A4B, the whole family across concurrency.** Decode tok/s vs concurrency on vLLM NVFP4. Native MTP leads at every batch past conc-4; grafted EAGLE3 trails it; the [DiffusionGemma](#diffusion-based-models) target wins at batch-1 but saturates near 200 tok/s while the autoregressive lines keep scaling.
+**Figure 3 — Gemma-4 26B-A4B, the whole family across concurrency.** Decode tok/s vs concurrency on vLLM NVFP4. Native MTP leads at every batch past conc-4, peaking at 1380 tok/s (conc-128) before it and EAGLE3 run out of memory at conc-256; the drafter-free base is leaner and scales all the way to 1366 tok/s. The [DiffusionGemma](#diffusion-based-models) target wins at batch-1 but saturates near 200 tok/s while the autoregressive lines keep scaling.
 {: .figcaption}
 
 We compare MTP and EAGLE3 drafters, and find that MTP wins the two head-to-head rows outright:
@@ -267,6 +269,14 @@ For long-context, low-concurrency work (exactly the Spark's niche) it's the natu
 
 ## So... what should I do?
 
-1. Look at the five rules above
-2. Benchmark your model against your actual workload.
-3. Keep an eye out for advances in this area, both in speculators and in fundamental models.
+Start from the five rules. They're the compressed version of everything above, and they'll tell you within a minute whether a given speculator is worth trying:
+
+1. **[Drafters trade compute for speed](#drafters-trade-compute-for-speed)** — a drafter burns spare compute to shorten the critical path, so the win is largest exactly when you have compute to spare (low concurrency) and shrinks as the batch fills the machine.
+2. **[Agreement is critical to performance](#agreement-is-critical-to-performance)** — every rejected draft token is wasted work, so acceptance rate (accept-len) is the single number that decides whether a speculator helps or hurts.
+3. **[Drafters are brittle](#drafters-are-brittle)** — the same drafter can swing from a huge win to nothing when you change the engine, the workload, or which draft weights you load; nothing here transfers without measuring.
+4. **[Slower target, bigger relative win](#slower-target-bigger-relative-win)** — there's more latency to amortize behind a slow target, so the *relative* speedup is largest on the slowest configs and smallest on the ones that were already fast.
+5. **[Speculation can't rescue a bad config](#speculation-cant-rescue-a-bad-config)** — a drafter multiplies whatever it's bolted onto, so pick the fastest quant and engine first; a good speculator on a mediocre base still loses to the fast base alone.
+
+None of that substitutes for benchmarking your own model on your own workload. The rules are brittle by their own admission — the numbers here came from one machine, a handful of engines, and two datasets, and Rule 3 is a standing warning that they won't carry cleanly to your setup. Measure the decode rate at the concurrency you actually run, on prompts that look like your traffic, before you commit to a speculator.
+
+And keep watching. This is a fast-moving corner of the field on both sides: new speculators (trees, diffusion drafters, drafter-assisted prefill) and new target models that fold speculation into their architecture, like the two-tower diffusion work above. The right answer six months from now isn't even on this page yet.

@@ -17,3 +17,9 @@ concurrency,method,decode,source_url
 8,base,241.82,configs/qwen3-6-35b-a3b-nvfp4-vllm-c8/
 16,base,332.42,configs/qwen3-6-35b-a3b-nvfp4-vllm-c16/
 32,base,430.76,configs/qwen3-6-35b-a3b-nvfp4-vllm/
+64,MTP,670.82,configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c64/
+128,MTP,749.92,configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c128/
+64,DFlash,420.35,configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c64/
+128,DFlash,425.71,configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c128/
+64,base,547.89,configs/qwen3-6-35b-a3b-nvfp4-vllm-c64/
+128,base,675.86,configs/qwen3-6-35b-a3b-nvfp4-vllm-c128/

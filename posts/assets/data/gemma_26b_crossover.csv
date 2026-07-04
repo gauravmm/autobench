@@ -23,3 +23,10 @@ concurrency,method,decode,source_url
 8,diffusion,199.18,configs/diffusiongemma-26b-a4b-vllm-nvfp4-c8/
 16,diffusion,199.29,configs/diffusiongemma-26b-a4b-vllm-nvfp4-c16/
 32,diffusion,200.66,configs/diffusiongemma-26b-a4b-vllm-nvfp4/
+64,base,680.93,configs/gemma-4-26b-a4b-it-vllm-nvfp4-c64/
+128,base,995.1,configs/gemma-4-26b-a4b-it-vllm-nvfp4-c128/
+256,base,1365.89,configs/gemma-4-26b-a4b-it-vllm-nvfp4-c256/
+64,MTP,1027.53,configs/gemma-4-26b-a4b-it-vllm-nvfp4-mtp-c64/
+128,MTP,1380.09,configs/gemma-4-26b-a4b-it-vllm-nvfp4-mtp-c128/
+64,EAGLE3,888.98,configs/gemma-4-26b-a4b-it-vllm-nvfp4-eagle3-c64/
+128,EAGLE3,1210.22,configs/gemma-4-26b-a4b-it-vllm-nvfp4-eagle3-c128/
