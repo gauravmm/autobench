@@ -5,5 +5,5 @@ Qwen3.6-35B-A3B,FP8,286.0,407.9,configs/qwen3-6-35b-a3b-vllm-fp8/,configs/qwen3-
 Qwen3.6-35B-A3B,NVFP4,430.8,541.3,configs/qwen3-6-35b-a3b-nvfp4-vllm/,configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp/
 Gemma-4-E4B,FP8,869.7,1261.5,configs/gemma-4-e4b-it-vllm-fp8/,configs/gemma-4-e4b-it-vllm-fp8-mtp/
 Gemma-4-12B,NVFP4,503.8,782.4,configs/gemma-4-12b-it-redhatai-vllm-nvfp4/,configs/gemma-4-12b-it-redhatai-vllm-nvfp4-mtp/
-Gemma-4-26B-A4B,NVFP4,384.1,692.1,configs/gemma-4-26b-a4b-it-vllm-nvfp4/,configs/gemma-4-26b-a4b-it-vllm-nvfp4-mtp/
+Gemma-4-26B-A4B,NVFP4,421.1,697.0,configs/gemma-4-26b-a4b-it-vllm-nvfp4/,configs/gemma-4-26b-a4b-it-vllm-nvfp4-mtp/
 Gemma-4-31B,NVFP4,167.0,323.5,configs/gemma-4-31b-it-vllm-nvfp4/,configs/gemma-4-31b-it-vllm-nvfp4-mtp/

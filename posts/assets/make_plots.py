@@ -21,6 +21,7 @@ OUT.mkdir(exist_ok=True)
 
 # dataviz palette (light mode, validated): neutral baseline + blue/aqua categorical slots.
 BASE, MTP, AQUA = "#898781", "#2a78d6", "#1baf7a"
+EAGLE = "#c96a2b"  # 4th categorical slot (burnt orange) — distinct from blue/aqua/grey
 sns.set_theme(style="whitegrid", font="sans-serif")
 
 # ponytail: static SVG for a Jekyll post — no hover/dark-mode/table-view layer (those
@@ -104,6 +105,58 @@ def mtp_vs_dflash():
     print("wrote", OUT / "mtp_vs_dflash_35b.svg")
 
 
+def gemma_26b_crossover():
+    df = pd.read_csv(DATA / "gemma_26b_crossover.csv")
+    fig, ax = plt.subplots(figsize=(7, 4.4))
+    order = ["base", "MTP", "EAGLE3", "diffusion"]
+    colors = {"base": BASE, "MTP": MTP, "EAGLE3": EAGLE, "diffusion": AQUA}
+    sns.lineplot(df, x="concurrency", y="decode", hue="method", style="method",
+                 hue_order=order, style_order=order, markers=True, dashes=False,
+                 markersize=8, linewidth=2, palette=colors, ax=ax)
+    ax.set_xscale("log", base=2)
+    ax.set_yscale("log", base=10)
+    ax.set_xticks(sorted(df.concurrency.unique()))
+    ax.set_yticks([30, 50, 100, 200, 400, 700])
+    ax.xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
+    ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
+    ax.yaxis.set_minor_locator(matplotlib.ticker.NullLocator())
+    ax.grid(True, axis="y", which="major")
+
+    # direct value labels at both ends (relief rule — legend colors go sub-3:1 on white).
+    # conc-1 cluster: base 29 · EAGLE3 50 · MTP 57 · diffusion 116 — nudge the close EAGLE3/MTP apart.
+    left_dy = {"base": 0, "EAGLE3": -6, "MTP": 6, "diffusion": 0}
+    for method in order:
+        pts = df[df.method == method].sort_values("concurrency")
+        end = pts.iloc[-1]
+        # diffusion ends far right at ~200; label below the point so it doesn't push the x-margin.
+        end_kw = (dict(xytext=(0, -8), ha="center", va="top") if method == "diffusion"
+                  else dict(xytext=(6, 0), ha="left", va="center"))
+        ax.annotate(f"{method} {end.decode:.0f}", (end.concurrency, end.decode),
+                    textcoords="offset points", fontsize=9,
+                    color=colors[method], fontweight="bold", **end_kw)
+        start = pts.iloc[0]
+        ax.annotate(f"{start.decode:.0f}", (start.concurrency, start.decode),
+                    xytext=(-7, left_dy[method]), textcoords="offset points",
+                    ha="right", va="center", fontsize=9, color=colors[method], fontweight="bold")
+
+    # crossover: diffusion wins low batch but saturates ~200; autoregressive lines scale past it.
+    ax.annotate("diffusion saturates ~200;\nspec scales past it", (8, 199),
+                xytext=(2.2, 340), textcoords="data", fontsize=8, color="#52514e",
+                arrowprops=dict(arrowstyle="->", color="#898781", lw=1))
+
+    ax.set_xlabel("concurrency (requests)")
+    ax.set_ylabel("decode tok/s (aggregate)")
+    ax.set_title("Gemma-4-26B-A4B NVFP4, vLLM")
+    ax.legend(title="", frameon=False, loc="upper left")
+    ax.margins(x=0.10)
+    sns.despine(ax=ax)
+    fig.tight_layout()
+    fig.savefig(OUT / "gemma_26b_crossover.svg")
+    plt.close(fig)
+    print("wrote", OUT / "gemma_26b_crossover.svg")
+
+
 if __name__ == "__main__":
     base_vs_mtp()
     mtp_vs_dflash()
+    gemma_26b_crossover()
