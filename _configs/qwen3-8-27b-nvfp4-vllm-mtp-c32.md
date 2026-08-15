@@ -50,12 +50,15 @@ predecessor's, and that gap is the interesting result here.**
   (ShareGPT general chat runs at the low end), and the **Qwen3.6-27B NVFP4+MTP sibling measured 67% with
   mean length 3.0** on this exact harness and workload. So this head is ~13 points worse than its direct
   predecessor under identical conditions. Two candidate explanations, neither confirmed:
-  1. **Draft/target precision mismatch.** unsloth leaves `re:^mtp.*` unquantized (BF16) while the target
-     MLPs are NVFP4 W4A4. A BF16 draft predicting for a W4A4 target diverges more than a matched pair —
-     this is the more likely cause, and it is testable by benchmarking MTP on the official
-     `Qwen/Qwen3.8-27B-FP8` (uniform-ish FP8 target, smaller gap to a BF16 head).
-  2. **Day-one MTP head.** The model is one day old; the head may simply be less trained than 3.6's.
-  Worth re-running against a matched-precision checkpoint before drawing a conclusion about the model.
+  1. ~~**Draft/target precision mismatch.**~~ unsloth leaves `re:^mtp.*` unquantized (BF16) while the
+     target MLPs are NVFP4 W4A4, so a BF16 draft predicting for a W4A4 target should diverge more than
+     a matched pair. **Tested and REFUTED** — [`qwen3-8-27b-fp8-vllm-mtp-c32`](qwen3-8-27b-fp8-vllm-mtp-c32)
+     re-ran the same head against the official FP8 target (much closer to BF16) with everything else
+     held fixed and measured **~56% acceptance / mean length 2.7** — within noise of this run's 54% /
+     2.6. Precision is not the cause.
+  2. **Day-one MTP head — the surviving explanation.** The Qwen3.8-27B MTP head simply predicts
+     ShareGPT-style general chat ~13 points worse than Qwen3.6's, independent of target quant. Recorded
+     as a model property, not a serving misconfiguration; there is nothing to fix on the run side.
   The **+31% decode still lands** despite the mediocre acceptance, because the hybrid stack makes each
   drafted step cheap.
 - **Memory (vLLM log):** weights + non-torch **25.67 GiB** (+0.52 over base — that is the MTP head),

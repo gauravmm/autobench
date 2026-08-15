@@ -44,6 +44,13 @@ no flags beyond `--dtype bfloat16`.** The model landed 2026-08-14; `vllm/vllm-op
   362% over-estimate), KV cache **74.61 GiB** = **2,128,554 tokens** → max concurrency **32.5×** at
   65536 ctx. Free on device at startup 112.81/121.69 GiB. So the 104 GB headline is ~72% KV reservation;
   the model itself is a comfortable 25 GB and there is a lot of room to push context or concurrency.
+- **This checkpoint silently gets an FP8 KV cache, and it doubles KV capacity.** unsloth's
+  `quantization_config` carries a `kv_cache_scheme` (static per-tensor E4M3, `num_bits: 8`), so vLLM's
+  `kv_cache_dtype=auto` resolves to FP8 KV — nothing on the command line says so. Against the official
+  [`Qwen/Qwen3.8-27B-FP8`](qwen3-8-27b-fp8-vllm-c32) repo, which carries **no** `kv_cache_scheme` and
+  therefore runs a BF16 KV cache, the same ~70 GiB reservation buys **2,128,554 vs 1,046,391 tokens —
+  almost exactly 2×** (32.5× vs 16.0× max concurrency at 65536 ctx). Worth knowing before reading any
+  NVFP4-vs-FP8 memory comparison on this model: they are not serving the same KV precision.
 - **Architecture — same hybrid stack as Qwen3.5/3.6, not a new one.** `model_type: qwen3_5`, 64 layers
   interleaving **3× GatedDeltaNet linear-attention : 1× full attention** (`full_attention_interval: 4`,
   16 full-attn layers), hidden 5120, head_dim 256, 24 heads / 4 KV heads, `attn_output_gate`,
