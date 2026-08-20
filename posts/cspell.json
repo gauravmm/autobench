@@ -15,12 +15,16 @@
     "GatedDeltaNet",
     "Gemma",
     "GGUF",
+    "gauravmm",
     "HumanEval",
     "ICML",
     "kramdown",
     "LMSYS",
+    "Marp",
+    "Metropolyst",
     "mamba",
     "MXFP",
+    "Nemotron",
     "NEXTN",
     "NVFP",
     "prefill",
@@ -29,9 +33,14 @@
     "SDPA",
     "SGLang",
     "ShareGPT",
+    "softaworks",
     "SpecForge",
     "speedup",
+    "TTFT",
     "unquantized",
-    "vLLM"
+    "vLLM",
+    "Consolas",
+    "denoiser",
+    "Segoe"
   ]
 }
