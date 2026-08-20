@@ -32,7 +32,7 @@ run_command: |
 
 **Custom AEON-ultimate container + DFlash, conc 8.** Part of the 1/8/32 sweep on the card's "DGX Spark
 production" recipe (custom vLLM 0.23.0 + external z-lab DFlash drafter). Mid-point between single-stream and the c=32 throughput point. See the
-[conc-1 page](qwen3-6-27b-aeon-uncensored-vllm-ultimate-dflash-c1) for the safety posture (untrusted
+[conc-1 page]({{ site.baseurl }}/configs/qwen3-6-27b-aeon-uncensored-vllm-ultimate-dflash-c1/) for the safety posture (untrusted
 image, no creds, models read-only) and drafter details.
 
 - **Result (conc 8):** prefill **124.32** tok/s, decode **127.14** tok/s aggregate; **456 prompts**

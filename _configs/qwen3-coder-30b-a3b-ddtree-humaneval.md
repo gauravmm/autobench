@@ -32,7 +32,7 @@ run_command: |
 ---
 
 **On code, block-diffusion spec-decode is a 2.7–2.8× single-stream WIN — and the tree's edge over the single
-line nearly vanishes.** Same Qwen3-Coder-30B-A3B / DFlash drafter as [`…-ddtree`](qwen3-coder-30b-a3b-ddtree),
+line nearly vanishes.** Same Qwen3-Coder-30B-A3B / DFlash drafter as [`…-ddtree`]({{ site.baseurl }}/configs/qwen3-coder-30b-a3b-ddtree/),
 only the workload changes (chat → code). This is the workload thesis, measured.
 
 | method | decode tok/s | accept-len (code) | vs base | accept-len (chat) |
@@ -63,6 +63,6 @@ only the workload changes (chat → code). This is the workload thesis, measured
   working set is ~68 GB (per the chat run).
 
 **METHODOLOGY:** batch-1 only (no conc 8/32); bf16 target (absolute tok/s not comparable to the NVFP4 serving
-rows); harness-supported proxy target (our Qwen3.6 hybrids are blocked — [`35b-a3b`](qwen3-6-35b-a3b-ddtree-blocked)).
-Chat companion: [`qwen3-coder-30b-a3b-ddtree`](qwen3-coder-30b-a3b-ddtree). See `notes/INCOMPATIBILITIES.md` +
+rows); harness-supported proxy target (our Qwen3.6 hybrids are blocked — [`35b-a3b`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-ddtree-blocked/)).
+Chat companion: [`qwen3-coder-30b-a3b-ddtree`]({{ site.baseurl }}/configs/qwen3-coder-30b-a3b-ddtree/). See `notes/INCOMPATIBILITIES.md` +
 `scripts/bench-ddtree.sh`.

@@ -44,6 +44,6 @@ run_command: |
   concurrency-driven**, as expected for the in-repo MTP head.
 - **TPOT median reads 0.0** — the usual `qwen3` reasoning-parser client artifact; trust the aggregate decode
   tok/s and the in-engine SpecDecoding throughput.
-- Sweep siblings: [`-c1`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c1) · [`-c2`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c2) ·
-  [`-c8`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8) · [`-c16`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c16) ·
-  [`maxctx/c32`](qwen3-6-35b-a3b-nvfp4-vllm-mtp).
+- Sweep siblings: [`-c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c1/) · [`-c2`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c2/) ·
+  [`-c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8/) · [`-c16`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c16/) ·
+  [`maxctx/c32`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp/).

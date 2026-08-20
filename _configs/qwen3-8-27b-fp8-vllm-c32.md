@@ -35,7 +35,7 @@ the 21% measured on the Qwen3.6-27B generation.**
 
 - **Result (conc 32):** prefill **196.3** / decode **143.9** tok/s; **573/1000, 0 errors**; hit the
   900 s cap (939.7 s wall, 641 s of it cold load — ~27 GB over 66 shards).
-- **vs [NVFP4 base](qwen3-8-27b-nvfp4-vllm-c32):** 270.6 / 210.0 → NVFP4 is **+37.9% prefill,
+- **vs [NVFP4 base]({{ site.baseurl }}/configs/qwen3-8-27b-nvfp4-vllm-c32/):** 270.6 / 210.0 → NVFP4 is **+37.9% prefill,
   **+46.0% decode**. For reference the same comparison on Qwen3.6-27B was +7.6% / +21.4%, so the NVFP4
   advantage roughly doubled generation-over-generation.
 - **The gap is real compute, not KV starvation.** FP8's KV reservation only supports **15.97×**

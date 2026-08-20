@@ -61,13 +61,13 @@ essentially neutral.** gpt-oss-120b MXFP4 + `lmsys/EAGLE3-gpt-oss-120b-bf16` on 
   vLLM and SpecForge/SGLang define acceptance differently and disagree by ~6–10 pts (direction varies by
   model), so part of the ~29%-vs-~55% gap may be measurement, not real conversion. The *within-vLLM* trend is
   informative though: acceptance is ~20% (c1) → ~48% (c8) → ~29% (c32) — a low-batch depression at c1 (the
-  EAGLE3 pathology, cf. the gpt-oss-20b [`-eagle3-c16`](gpt-oss-20b-vllm-mxfp4-eagle3-c16) diagnostic) then a
-  high-batch decline by c32, peaking at c8 (~48%, near SGLang's ~55%; see [`-lmsys-c8`](gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c8)). Related open bug on the same
+  EAGLE3 pathology, cf. the gpt-oss-20b [`-eagle3-c16`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c16/) diagnostic) then a
+  high-batch decline by c32, peaking at c8 (~48%, near SGLang's ~55%; see [`-lmsys-c8`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c8/)). Related open bug on the same
   model: [#38754](https://github.com/vllm-project/vllm/issues/38754) (EAGLE3 acceptance→0 under CUDA
   graphs+prefix-caching+chunked-prefill via router-GEMM NaNs) — a different signature (intermittent zero, not
   a stable low value), but worth ruling out with a prefix-caching-off control.
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric. 151 harmony
   errors are the usual 256-tok mid-reasoning truncation, worse at high batch.
-- Cross-ref: [`-lmsys-c1`](gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c1) · vLLM+NVIDIA
-  [`eagle3`](gpt-oss-120b-vllm-mxfp4-eagle3) · SGLang+LMSYS
-  [`sglang-eagle3-c32`](gpt-oss-120b-sglang-mxfp4-eagle3-c32) · base [`vllm-mxfp4`](gpt-oss-120b-vllm-mxfp4).
+- Cross-ref: [`-lmsys-c1`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c1/) · vLLM+NVIDIA
+  [`eagle3`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4-eagle3/) · SGLang+LMSYS
+  [`sglang-eagle3-c32`]({{ site.baseurl }}/configs/gpt-oss-120b-sglang-mxfp4-eagle3-c32/) · base [`vllm-mxfp4`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4/).

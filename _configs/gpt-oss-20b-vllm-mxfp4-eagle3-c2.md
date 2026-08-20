@@ -37,7 +37,7 @@ gpt-oss-20b MXFP4 + RedHatAI EAGLE3 speculator on vLLM, conc 2.
 
 - **Result (conc 2):** prefill 67.51 / decode **58.98** tok/s aggregate; 141/1000 prompts (hit the 600 s
   cap), **11 harmony errors**; peak mem 108.4 GB.
-- **EAGLE3 vs base at conc-2: −29.3%** (58.98 vs base [83.37](gpt-oss-20b-vllm-mxfp4-c2)). The draft doesn't
+- **EAGLE3 vs base at conc-2: −29.3%** (58.98 vs base [83.37]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c2/)). The draft doesn't
   just fail to help — it **actively hurts** at low batch, because the wasted draft/verify work isn't offset by
   any acceptance. This is the decisive evidence for #15: if the conc-32 "+28%" came from acceptance, spec
   would help here too; instead it's **strongly negative**, so the c32 win is a scheduling/prefill effect at
@@ -47,6 +47,6 @@ gpt-oss-20b MXFP4 + RedHatAI EAGLE3 speculator on vLLM, conc 2.
   EAGLE3's ~3.0 / ~70% expectation — ShareGPT general chat + gpt-oss's harmony reasoning channel is
   off-distribution for this draft (see notes/INCOMPATIBILITIES.md).
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric.
-- Sweep: [`-c1`](gpt-oss-20b-vllm-mxfp4-eagle3-c1) · [`-c4`](gpt-oss-20b-vllm-mxfp4-eagle3-c4) ·
-  [`-c8`](gpt-oss-20b-vllm-mxfp4-eagle3-c8) · [`-c16`](gpt-oss-20b-vllm-mxfp4-eagle3-c16) ·
-  [`c32` (main)](gpt-oss-20b-vllm-mxfp4-eagle3). Base: [`-c2`](gpt-oss-20b-vllm-mxfp4-c2).
+- Sweep: [`-c1`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c1/) · [`-c4`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c4/) ·
+  [`-c8`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c8/) · [`-c16`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c16/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3/). Base: [`-c2`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c2/).

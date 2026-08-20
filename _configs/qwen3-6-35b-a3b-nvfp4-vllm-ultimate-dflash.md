@@ -53,7 +53,7 @@ drafter, one-boot sweep across conc 1/2/4/8/16/32. **0 errors at every concurren
 - **Result (conc 1):** prefill 140.82 / decode **99.76** tok/s single-stream aggregate; 234/1000 prompts
   (hit the 600 s cap), **0 errors**; TTFT median 2404.9 ms.
 - **The ctx confound is gone — and DFlash's single-stream lead evaporates.** Against the matched 600 s-cap
-  MTP c1 baseline (99.04, [`-mtp-c1`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c1)), DFlash is now **+0.7%** — a wash,
+  MTP c1 baseline (99.04, [`-mtp-c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c1/)), DFlash is now **+0.7%** — a wash,
   not a win. The original ctx-40960 measurement (101.9, +2.9%) overstated DFlash's edge by giving it a
   shorter context (less KV overhead) than MTP's 65536. With context fully matched, **DFlash never leads MTP
   at any concurrency** — the crossover claim collapses to "DFlash ties at conc-1, then loses monotonically."
@@ -73,11 +73,11 @@ drafter, one-boot sweep across conc 1/2/4/8/16/32. **0 errors at every concurren
 removed, DFlash doesn't even win single-stream — it's a wash at c1 and a growing loss from c2 onward. Not
 worth an external drafter, a forbidden drafter revision, and an untrusted image replacing the pinned vLLM.
 Full six-point sweep: **c1 (this page)** ·
-[`c2`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c2) ·
-[`c4`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c4) ·
-[`c8`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c8) ·
-[`c16`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c16) ·
-[`c32`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32). Matched MTP:
-[`-mtp-c1`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c1). Cross-ref:
-[`…heretic…dflash`](qwen3-6-35b-a3b-heretic-aeon-vllm-ultimate-dflash),
-[`…dflash-blocked`](ornith-1-0-35b-aeon-vllm-nvfp4-dflash-blocked), `notes/INCOMPATIBILITIES.md`.
+[`c2`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c2/) ·
+[`c4`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c4/) ·
+[`c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c8/) ·
+[`c16`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c16/) ·
+[`c32`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32/). Matched MTP:
+[`-mtp-c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c1/). Cross-ref:
+[`…heretic…dflash`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-heretic-aeon-vllm-ultimate-dflash/),
+[`…dflash-blocked`]({{ site.baseurl }}/configs/ornith-1-0-35b-aeon-vllm-nvfp4-dflash-blocked/), `notes/INCOMPATIBILITIES.md`.

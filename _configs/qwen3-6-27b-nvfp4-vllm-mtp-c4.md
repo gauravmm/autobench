@@ -31,7 +31,7 @@ run_command: |
     --speculative-config '{"method":"mtp","num_speculative_tokens":3}'
 ---
 
-**conc-4 MTP point of the Qwen3.6-27B NVFP4 sweep** — paired with the matched base [`-c4`](qwen3-6-27b-nvfp4-vllm-c4)
+**conc-4 MTP point of the Qwen3.6-27B NVFP4 sweep** — paired with the matched base [`-c4`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c4/)
 for the base-vs-MTP speedup-decay curve (EXPERIMENTS.md #14).
 
 - **Result (conc 4):** prefill 68.39 / decode **67.76** tok/s aggregate; **0 errors**; peak mem 108.1 GB.
@@ -41,6 +41,6 @@ for the base-vs-MTP speedup-decay curve (EXPERIMENTS.md #14).
   begins filling the compute at c8, far above the 35B-A3B MoE's ~+20–40% band.
 - **Acceptance ~70%, accept-len ~3.1-of-3** (per-position 0.86/0.70/0.55) — batch-stable vs the -c2 (~68%) and
   -c8 (~71%) rows; MTP acceptance here is workload-driven, not concurrency-sensitive.
-- Sweep: base [`-c4`](qwen3-6-27b-nvfp4-vllm-c4) · MTP [`-c1`](qwen3-6-27b-nvfp4-vllm-mtp-c1) ·
-  [`-c2`](qwen3-6-27b-nvfp4-vllm-mtp-c2) · [`-c8`](qwen3-6-27b-nvfp4-vllm-mtp-c8) ·
-  [`-c16`](qwen3-6-27b-nvfp4-vllm-mtp-c16) · [`c32`](qwen3-6-27b-nvfp4-vllm-mtp).
+- Sweep: base [`-c4`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c4/) · MTP [`-c1`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c1/) ·
+  [`-c2`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c2/) · [`-c8`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c8/) ·
+  [`-c16`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c16/) · [`c32`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp/).

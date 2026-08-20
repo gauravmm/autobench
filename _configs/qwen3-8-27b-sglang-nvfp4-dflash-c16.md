@@ -29,6 +29,6 @@ run_command: |
     --num-prompts 1000 --max-seconds 900 --concurrency 16 --max-tokens 256
 ---
 
-**BLOCKED — memory ceiling, same wall as [`c8`](qwen3-8-27b-sglang-nvfp4-dflash-c8).** DFlash2 extra_buffer uses 5 GDN slots/req, so 16 running needs 80 mamba slots; even 8 running died at conc-2 and 4 running died at conc-4. Not attempted.
+**BLOCKED — memory ceiling, same wall as [`c8`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c8/).** DFlash2 extra_buffer uses 5 GDN slots/req, so 16 running needs 80 mamba slots; even 8 running died at conc-2 and 4 running died at conc-4. Not attempted.
 
-- Series: [`c1`](qwen3-8-27b-sglang-nvfp4-dflash-c1) · [`c2`](qwen3-8-27b-sglang-nvfp4-dflash-c2) · [`c4`](qwen3-8-27b-sglang-nvfp4-dflash-c4) · [`c8`](qwen3-8-27b-sglang-nvfp4-dflash-c8) · [`c16`](qwen3-8-27b-sglang-nvfp4-dflash-c16) · [`c32`](qwen3-8-27b-sglang-nvfp4-dflash-c32).
+- Series: [`c1`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c1/) · [`c2`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c2/) · [`c4`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c4/) · [`c8`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c8/) · [`c16`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c16/) · [`c32`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c32/).

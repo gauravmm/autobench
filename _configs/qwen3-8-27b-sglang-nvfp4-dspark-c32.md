@@ -29,6 +29,6 @@ run_command: |
     --num-prompts 1000 --max-seconds 900 --concurrency 32 --max-tokens 256
 ---
 
-**BLOCKED — memory ceiling, same wall as [`c16`](qwen3-8-27b-sglang-nvfp4-dspark-c16).** DSpark never served 16 concurrent requests on this box at `--mem-fraction-static 0.90`; conc-32 is strictly harder (GDN pool 32×4 = 128 slots ≈ 28 GB mamba alone). Last good point is conc-8.
+**BLOCKED — memory ceiling, same wall as [`c16`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dspark-c16/).** DSpark never served 16 concurrent requests on this box at `--mem-fraction-static 0.90`; conc-32 is strictly harder (GDN pool 32×4 = 128 slots ≈ 28 GB mamba alone). Last good point is conc-8.
 
-- Series: [`c1`](qwen3-8-27b-sglang-nvfp4-dspark-c1) · [`c2`](qwen3-8-27b-sglang-nvfp4-dspark-c2) · [`c4`](qwen3-8-27b-sglang-nvfp4-dspark-c4) · [`c8`](qwen3-8-27b-sglang-nvfp4-dspark-c8) · [`c16`](qwen3-8-27b-sglang-nvfp4-dspark-c16) · [`c32`](qwen3-8-27b-sglang-nvfp4-dspark-c32).
+- Series: [`c1`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dspark-c1/) · [`c2`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dspark-c2/) · [`c4`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dspark-c4/) · [`c8`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dspark-c8/) · [`c16`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dspark-c16/) · [`c32`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dspark-c32/).

@@ -29,6 +29,6 @@ run_command: |
     --num-prompts 1000 --max-seconds 900 --concurrency 32 --max-tokens 256
 ---
 
-**BLOCKED — memory ceiling, same wall as [`c8`](qwen3-8-27b-sglang-nvfp4-dflash-c8).** A 32-running DFlash2 boot at 0.90 was never stable on this box (first-request SIGKILL even after the quantized-head patch). Not attempted.
+**BLOCKED — memory ceiling, same wall as [`c8`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c8/).** A 32-running DFlash2 boot at 0.90 was never stable on this box (first-request SIGKILL even after the quantized-head patch). Not attempted.
 
-- Series: [`c1`](qwen3-8-27b-sglang-nvfp4-dflash-c1) · [`c2`](qwen3-8-27b-sglang-nvfp4-dflash-c2) · [`c4`](qwen3-8-27b-sglang-nvfp4-dflash-c4) · [`c8`](qwen3-8-27b-sglang-nvfp4-dflash-c8) · [`c16`](qwen3-8-27b-sglang-nvfp4-dflash-c16) · [`c32`](qwen3-8-27b-sglang-nvfp4-dflash-c32).
+- Series: [`c1`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c1/) · [`c2`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c2/) · [`c4`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c4/) · [`c8`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c8/) · [`c16`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c16/) · [`c32`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c32/).

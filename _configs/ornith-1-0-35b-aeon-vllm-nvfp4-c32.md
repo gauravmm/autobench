@@ -60,5 +60,5 @@ Ornith-1.0-35B (Qwen3.6-35B-A3B base) on the AEON vLLM container, NVFP4, ctx 327
 - **TPOT median logged 0.0** is a client artifact (the bench's per-token timer doesn't see the fork's
   `reasoning` field as streamed content) — the aggregate decode tok/s is the reliable figure.
 
-Pair with: the [conc-1 @ 256K page](ornith-1-0-35b-aeon-vllm-nvfp4-c1-maxctx) (single-stream + max
-concurrency at full context) and the [DFlash-blocked page](ornith-1-0-35b-aeon-vllm-nvfp4-dflash-blocked).
+Pair with: the [conc-1 @ 256K page]({{ site.baseurl }}/configs/ornith-1-0-35b-aeon-vllm-nvfp4-c1-maxctx/) (single-stream + max
+concurrency at full context) and the [DFlash-blocked page]({{ site.baseurl }}/configs/ornith-1-0-35b-aeon-vllm-nvfp4-dflash-blocked/).

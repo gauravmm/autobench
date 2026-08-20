@@ -32,7 +32,7 @@ run_command: |
 
 **Custom AEON-ultimate container + DFlash, conc 32.** Part of the 1/8/32 sweep on the card's "DGX Spark
 production" recipe (custom vLLM 0.23.0 + external z-lab DFlash drafter). Direct A/B vs the native-MTP-on-stock-vLLM result (**303 tok/s @ conc-32**) — does the custom container + DFlash beat stock + MTP at the same batch? The card claims ~340 tok/s @ c=64 / ~45% DFlash accept. See the
-[conc-1 page](qwen3-6-27b-aeon-uncensored-vllm-ultimate-dflash-c1) for the safety posture (untrusted
+[conc-1 page]({{ site.baseurl }}/configs/qwen3-6-27b-aeon-uncensored-vllm-ultimate-dflash-c1/) for the safety posture (untrusted
 image, no creds, models read-only) and drafter details.
 
 - **Result (conc 32):** prefill **180.99** tok/s, decode **184.21** tok/s aggregate; **668 prompts**

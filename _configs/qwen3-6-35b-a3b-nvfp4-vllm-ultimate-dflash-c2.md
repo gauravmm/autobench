@@ -40,7 +40,7 @@ small-page drafter, one-boot sweep. **0 errors.**
 - **Result (conc 2):** prefill 168.05 / decode **151.3** tok/s aggregate; 356/1000 prompts (hit the 600 s
   cap), **0 errors**. **vs MTP conc-2 (161.21): −6.1%.**
 - **The crossover is already behind by conc-2, ctx-matched.** DFlash's conc-1 point is now a wash (+0.7%
-  vs matched-cap MTP — see [`c1` (main)](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash)), so the sign flip
+  vs matched-cap MTP — see [`c1` (main)]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/)), so the sign flip
   effectively happens *at* conc-1→2 rather than DFlash holding a real lead first. The old ctx-40960
   measurement (147.61 decode, same absolute number as this run within noise) read −8.4% against the same
   MTP baseline — the ctx fix barely moved this point (−8.4% → −6.1%), confirming most of the c2 loss was
@@ -52,9 +52,9 @@ small-page drafter, one-boot sweep. **0 errors.**
 - One server lifetime for the whole six-point sweep → mem is the single ~111.3 GB reservation
   (max-num-seqs 64). TPOT 0.0 is the `qwen3` reasoning-parser client artifact — decode tok/s is the real
   number.
-- Series: [`c1` (main)](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash) ·
-  [`c4`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c4) ·
-  [`c8`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c8) ·
-  [`c16`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c16) ·
-  [`c32`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32). Matched MTP:
-  [`-mtp-c2`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c2).
+- Series: [`c1` (main)]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/) ·
+  [`c4`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c4/) ·
+  [`c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c8/) ·
+  [`c16`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c16/) ·
+  [`c32`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32/). Matched MTP:
+  [`-mtp-c2`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c2/).

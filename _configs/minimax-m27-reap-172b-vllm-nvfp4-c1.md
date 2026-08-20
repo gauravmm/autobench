@@ -69,6 +69,6 @@ concurrency headroom).
 **Memory: ~121 GB used (1.2 GB free of 127.6 GB).** This is the practical ceiling for this checkpoint on
 the 121 GB-usable box — weights alone are 92 GiB, and the 160K KV reservation consumes most of the rest.
 
-**Pair:** throughput sibling at [base config]({{ '/configs/minimax-m27-reap-172b-vllm-nvfp4' | relative_url }})
+**Pair:** throughput sibling at [base config]({{ '/configs/minimax-m27-reap-172b-vllm-nvfp4/' | relative_url }})
 (conc-32, 65536 ctx). Same `engine_image`, same checkpoint, same cutlass serve recipe — only the operating
 point (context / concurrency / util / parsers) differs.

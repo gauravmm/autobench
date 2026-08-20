@@ -31,6 +31,6 @@ run_command: |
 
 **BLOCKED — memory ceiling above DFlash2 conc-4.** The 4-running boot (`MAX_CONCURRENT_REQUESTS=5`, 5 mamba slots/req → 4 running, `--cuda-graph-max-bs-decode 4`) SIGKILL'd 69 s into conc-4 (27 ok / 973 err, exit 137) after a scheduler GC freeze on top of the 0.90 reservation (~7 GB free at ready). The 8-running DFlash2 boot already died mid conc-2. Do not retry conc-8 at 0.90.
 
-- Last partial point: [`c4`](qwen3-8-27b-sglang-nvfp4-dflash-c4) decode **85.1** tok/s (n=27, noisy).
-- Clean last point: [`c1`](qwen3-8-27b-sglang-nvfp4-dflash-c1) decode **30.0** (116/1000, 0 errors).
-- Series: [`c1`](qwen3-8-27b-sglang-nvfp4-dflash-c1) · [`c2`](qwen3-8-27b-sglang-nvfp4-dflash-c2) · [`c4`](qwen3-8-27b-sglang-nvfp4-dflash-c4) · [`c8`](qwen3-8-27b-sglang-nvfp4-dflash-c8) · [`c16`](qwen3-8-27b-sglang-nvfp4-dflash-c16) · [`c32`](qwen3-8-27b-sglang-nvfp4-dflash-c32).
+- Last partial point: [`c4`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c4/) decode **85.1** tok/s (n=27, noisy).
+- Clean last point: [`c1`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c1/) decode **30.0** (116/1000, 0 errors).
+- Series: [`c1`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c1/) · [`c2`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c2/) · [`c4`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c4/) · [`c8`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c8/) · [`c16`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c16/) · [`c32`]({{ site.baseurl }}/configs/qwen3-8-27b-sglang-nvfp4-dflash-c32/).

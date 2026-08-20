@@ -38,5 +38,5 @@ artifact test (EXPERIMENTS.md #15). Same cu130-nightly recipe as the published c
 - **Base line for the artifact test is now:** decode 83.4 (c2) → 127.3 (c4) → **340.7 (c16)** → 535.3 (c32).
   Pair each against the EAGLE3 row to see whether spec-decode helps at all before conc-32.
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric.
-- Base siblings: [`-c2`](gpt-oss-20b-vllm-mxfp4-c2) · [`-c4`](gpt-oss-20b-vllm-mxfp4-c4) ·
-  [`c32` (main)](gpt-oss-20b-vllm-mxfp4). EAGLE3 counterpart: [`-eagle3-c16`](gpt-oss-20b-vllm-mxfp4-eagle3-c16).
+- Base siblings: [`-c2`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c2/) · [`-c4`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c4/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4/). EAGLE3 counterpart: [`-eagle3-c16`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c16/).

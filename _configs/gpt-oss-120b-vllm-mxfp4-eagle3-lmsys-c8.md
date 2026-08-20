@@ -47,8 +47,8 @@ gpt-oss-120b MXFP4 + `lmsys/EAGLE3-gpt-oss-120b-bf16` on vLLM.
   model-dependent, and shouldn't be stated as a universal "acceptance rises with concurrency" rule.
 - **No matched 120b base at conc-8** exists (base is conc-32 only), so this row is characterized by acceptance
   + absolute decode, not a spec-vs-base delta. The decisive draft-vs-engine delta is on the
-  [`-lmsys-c32`](gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c32) page.
+  [`-lmsys-c32`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c32/) page.
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric.
-- Sweep: [`-lmsys-c1`](gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c1) ·
-  [`-lmsys-c32`](gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c32) · SGLang+LMSYS
-  [`sglang-eagle3-c1`](gpt-oss-120b-sglang-mxfp4-eagle3-c1).
+- Sweep: [`-lmsys-c1`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c1/) ·
+  [`-lmsys-c32`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c32/) · SGLang+LMSYS
+  [`sglang-eagle3-c1`]({{ site.baseurl }}/configs/gpt-oss-120b-sglang-mxfp4-eagle3-c1/).

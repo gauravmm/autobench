@@ -47,6 +47,6 @@ as the published conc-1/8/32 rows; only `--max-num-seqs` changes.
   (which peaks at conc-1 then decays under load) to locate the crossover.
 - **TPOT median reads 0.0** — the usual `qwen3` reasoning-parser client artifact; trust the aggregate decode
   tok/s and the in-engine SpecDecoding throughput.
-- Sweep siblings: [`-c1`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c1) · [`-c2`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c2) ·
-  [`-c4`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c4) · [`-c8`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8) ·
-  [`maxctx/c32`](qwen3-6-35b-a3b-nvfp4-vllm-mtp).
+- Sweep siblings: [`-c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c1/) · [`-c2`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c2/) ·
+  [`-c4`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c4/) · [`-c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8/) ·
+  [`maxctx/c32`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp/).

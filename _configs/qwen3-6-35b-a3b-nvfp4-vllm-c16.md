@@ -46,6 +46,6 @@ conc-32 base; only `--max-num-seqs` changes.
   a 900 s run, so the +42% there mixes caps.) For the fully single-session apples-to-apples decay story, the
   DFlash-vs-MTP money chart is cleaner than this base-vs-MTP ratio.
 - TPOT 0.0 = `qwen3` reasoning-parser client artifact — decode tok/s is the reported metric.
-- Sweep siblings: [`-c1`](qwen3-6-35b-a3b-nvfp4-vllm-c1) · [`-c2`](qwen3-6-35b-a3b-nvfp4-vllm-c2) ·
-  [`-c4`](qwen3-6-35b-a3b-nvfp4-vllm-c4) · [`-c8`](qwen3-6-35b-a3b-nvfp4-vllm-c8) ·
-  [`c32` (main)](qwen3-6-35b-a3b-nvfp4-vllm). MTP counterpart: [`-mtp-c16`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c16).
+- Sweep siblings: [`-c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c1/) · [`-c2`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c2/) ·
+  [`-c4`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c4/) · [`-c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c8/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm/). MTP counterpart: [`-mtp-c16`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c16/).

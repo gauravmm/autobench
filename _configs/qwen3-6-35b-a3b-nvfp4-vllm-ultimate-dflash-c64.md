@@ -41,6 +41,6 @@ run_command: |
 - **Slowest per-request too:** 608.2 s for 1000 prompts (req thr 1.644/s) vs base c64's 466.8 s (2.142/s) — the drafter overhead shows up as latency as well as ceiling.
 - **Memory is tight at this max-num-seqs 128 boot:** the DFlash draft state is large, and by the c128 client run free headroom fell to **~4.1 GB** (util 0.85 + n=11 drafter). The [`mem-watchdog`](https://github.com/gauravmm/autobench) (pattern `aeon`, floor 3.5 GB) was armed throughout.
 - **Image (UNTRUSTED, pinned):** `ghcr.io/aeon-7/aeon-vllm-ultimate@sha256:be9e05a1…`, run with NO creds, read-only weight+drafter mounts, loopback-only port. Ready after 342 s.
-- Series: [`c1`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash) … [`c32`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32) · matched MTP [`-mtp-c64`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c64).
+- Series: [`c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/) … [`c32`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32/) · matched MTP [`-mtp-c64`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c64/).
 </content>
 </invoke>

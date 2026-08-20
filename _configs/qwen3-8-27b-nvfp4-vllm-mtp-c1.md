@@ -37,7 +37,7 @@ run_command: |
 measured at conc-32 was a floor, exactly as expected — and this is the config to quote for
 interactive, one-user-at-a-time use on the Spark.**
 
-- **Result (conc 1):** decode **21.35** tok/s vs the [conc-1 base](qwen3-8-27b-nvfp4-vllm-c1)'s 11.16 —
+- **Result (conc 1):** decode **21.35** tok/s vs the [conc-1 base]({{ site.baseurl }}/configs/qwen3-8-27b-nvfp4-vllm-c1/)'s 11.16 —
   **+91.3%**. TPOT median **88.5 → 44.6 ms** (**2.0× faster per token**). Prefill 41.91 vs 22.87.
   **83/1000 completed vs 41** in the same 900 s window — the request count itself doubled.
   0 errors, load 380 s.
@@ -52,7 +52,7 @@ interactive, one-user-at-a-time use on the Spark.**
   target quant**, which is what `notes/BENCHMARKING.md` says it should be (workload-driven, not
   concurrency-driven). What changes with concurrency is whether the speedup *materialises* — and it
   does, dramatically. The ~54–57% band remains well below the 70–85% rule of thumb and below the
-  Qwen3.6-27B sibling's 67%; see [`qwen3-8-27b-fp8-vllm-mtp-c32`](qwen3-8-27b-fp8-vllm-mtp-c32) for
+  Qwen3.6-27B sibling's 67%; see [`qwen3-8-27b-fp8-vllm-mtp-c32`]({{ site.baseurl }}/configs/qwen3-8-27b-fp8-vllm-mtp-c32/) for
   the control that ruled out a precision mismatch.
 - **This corrects the apparent MTP regression on the previous generation.** The Qwen3.6-27B conc-1 pair
   records `decode_toks` 16.85 (base) → 9.33 (MTP), which reads as MTP *hurting* at conc-1. That is an

@@ -41,6 +41,6 @@ conc-2 rows (EXPERIMENTS.md #4/#14). Same NVIDIA ModelOpt NVFP4 recipe as the pu
   post's "MTP win shrinks as the batch fills" framing — the shrink is real at the *high* end, but there's a
   low-batch *peak* first.
 - TPOT 0.0 = `qwen3` reasoning-parser client artifact — decode tok/s is the reported metric.
-- Sweep siblings: [`-c1`](qwen3-6-35b-a3b-nvfp4-vllm-c1) · [`-c4`](qwen3-6-35b-a3b-nvfp4-vllm-c4) ·
-  [`-c8`](qwen3-6-35b-a3b-nvfp4-vllm-c8) · [`-c16`](qwen3-6-35b-a3b-nvfp4-vllm-c16) ·
-  [`c32` (main)](qwen3-6-35b-a3b-nvfp4-vllm). MTP counterpart: [`-mtp-c2`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c2).
+- Sweep siblings: [`-c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c1/) · [`-c4`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c4/) ·
+  [`-c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c8/) · [`-c16`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c16/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm/). MTP counterpart: [`-mtp-c2`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c2/).

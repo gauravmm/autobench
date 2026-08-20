@@ -35,7 +35,7 @@ run_command: |
 
 **+69% decode at conc-8 — the middle of a clean, monotonic speedup-vs-batch curve.**
 
-- **Result (conc 8):** decode **126.68** tok/s vs the [conc-8 base](qwen3-8-27b-nvfp4-vllm-c8)'s 75.04 —
+- **Result (conc 8):** decode **126.68** tok/s vs the [conc-8 base]({{ site.baseurl }}/configs/qwen3-8-27b-nvfp4-vllm-c8/)'s 75.04 —
   **+68.8%**. TPOT median **101.5 → 59.3 ms** (**1.71× faster per token**). Prefill 149.7 vs 114.9.
   **487/1000 completed vs 288** in the same window. 0 errors, load 374 s.
 - **The completed speculative curve** (NVFP4 base vs NVFP4+MTP, identical 1000/900 s cap, ctx 65536):
@@ -56,7 +56,7 @@ run_command: |
   textbook behaviour per `notes/BENCHMARKING.md` (acceptance is workload-driven), and it makes the
   ~13-point shortfall against the Qwen3.6-27B sibling's 67% a solid, reproducible property of this
   model's head rather than a measurement artifact. The precision-mismatch explanation was tested and
-  ruled out in [`qwen3-8-27b-fp8-vllm-mtp-c32`](qwen3-8-27b-fp8-vllm-mtp-c32).
+  ruled out in [`qwen3-8-27b-fp8-vllm-mtp-c32`]({{ site.baseurl }}/configs/qwen3-8-27b-fp8-vllm-mtp-c32/).
 - **TTFT cost:** 345.3 → **476.1 ms** (+38%), the same shape as c1 (+49%) and c32 (+88%). The draft
   overhead per request is roughly constant; what grows with batch is the queueing on top of it.
 - **Memory 105.4 GB**, indistinguishable from the other points in the sweep.

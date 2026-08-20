@@ -38,7 +38,7 @@ Official `nvidia/Qwen3.6-35B-A3B-NVFP4` on the AEON image, DFlash n=11 via the s
 one-boot sweep across conc 1/2/4/8/16/32. **0 errors.**
 
 - **Result (conc 8):** prefill 273.06 / decode **267.43** tok/s aggregate; 633/1000 prompts (hit the 600 s
-  cap), **0 errors**. **vs matched-cap MTP conc-8 (304.0, [`-mtp-c8`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8)):
+  cap), **0 errors**. **vs matched-cap MTP conc-8 (304.0, [`-mtp-c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8/)):
   −12.0%.**
 - **Sits at the bottom of the shallow-loss zone before the c16 cliff.** The ctx-matched sweep now reads
   +0.7% (c1) → −6.1% (c2) → −9.3% (c4) → **−12.0% (c8)** → −21.5% (c16) → −24.8% (c32) — a smooth widening
@@ -52,9 +52,9 @@ one-boot sweep across conc 1/2/4/8/16/32. **0 errors.**
   (all ~26–27%) within noise.
 - One server lifetime for the whole six-point sweep → mem is the single ~111.3 GB reservation. TPOT 0.0 =
   `qwen3` reasoning-parser client artifact.
-- Series: [`c1` (main)](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash) ·
-  [`c2`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c2) ·
-  [`c4`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c4) ·
-  [`c16`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c16) ·
-  [`c32`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32). Matched MTP:
-  [`-mtp-c8`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8).
+- Series: [`c1` (main)]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/) ·
+  [`c2`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c2/) ·
+  [`c4`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c4/) ·
+  [`c16`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c16/) ·
+  [`c32`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32/). Matched MTP:
+  [`-mtp-c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8/).

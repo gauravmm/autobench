@@ -47,7 +47,7 @@ batch contention. Pairs with the conc-32 done run (decode 541 tok/s agg) and the
   re-measurement gave decode 99.04 tok/s** (233/400, 0 err) — ~5% higher (the short cap over-weights warmup;
   same effect lifted MTP c8 289→304). **This is the money-chart-relevant MTP c1 baseline:** against it,
   DFlash's conc-1 lead is only **~+2.9%** (101.9 vs 99.04), not the +8.5% quoted against the 93.91 short-cap
-  number — see [`…ultimate-dflash`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash) and the base
-  [`-vllm-c1`](qwen3-6-35b-a3b-nvfp4-vllm-c1).
+  number — see [`…ultimate-dflash`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/) and the base
+  [`-vllm-c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c1/).
 - **TPOT caveat:** the `qwen3` reasoning-parser zeros the client TPOT median (reads 0.0) — corroborate with
   the in-engine SpecDecoding metrics above.

@@ -38,14 +38,14 @@ EAGLE3 conc-8 row.
 - **Base line is now complete c1→c32:** decode 45.56 (c1) → 83.4 (c2) → 127.3 (c4) → **212.5 (c8)** →
   340.7 (c16) → 535.3 (c32) — clean monotone scaling.
 - **The EAGLE3-vs-base pathology's worst point.** Against this base, EAGLE3 decode
-  ([`-eagle3-c8`](gpt-oss-20b-vllm-mxfp4-eagle3-c8) at 126.3) is **−40.6%** — the deepest loss in the
+  ([`-eagle3-c8`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c8/) at 126.3) is **−40.6%** — the deepest loss in the
   sweep, right before the sign flip at c16. Full curve: −15.4% (c1) → −29.3% (c2) → −32.9% (c4) →
   **−40.6% (c8)** → +26.8% (c16) → +28.2% (c32). This confirms the post's "inverted" framing cleanly: the
   loss *deepens* monotonically through c8, then flips hard rather than gradually recovering — consistent
   with EAGLE3 draft acceptance being suppressed at low/mid batch (~5% at conc≤8) and jumping to ~44% only
   at conc≥16 (`notes/INCOMPATIBILITIES.md`).
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric.
-- Base siblings: [`-c1`](gpt-oss-20b-vllm-mxfp4-c1) · [`-c2`](gpt-oss-20b-vllm-mxfp4-c2) ·
-  [`-c4`](gpt-oss-20b-vllm-mxfp4-c4) · [`-c16`](gpt-oss-20b-vllm-mxfp4-c16) ·
-  [`c32` (main)](gpt-oss-20b-vllm-mxfp4). EAGLE3 counterpart:
-  [`-eagle3-c8`](gpt-oss-20b-vllm-mxfp4-eagle3-c8).
+- Base siblings: [`-c1`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c1/) · [`-c2`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c2/) ·
+  [`-c4`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c4/) · [`-c16`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c16/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4/). EAGLE3 counterpart:
+  [`-eagle3-c8`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c8/).

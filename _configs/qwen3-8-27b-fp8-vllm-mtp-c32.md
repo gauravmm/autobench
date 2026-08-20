@@ -39,7 +39,7 @@ run_command: |
 on NVFP4: statistically the same. The Qwen3.8 MTP head is simply weaker on ShareGPT than Qwen3.6's,
 independent of target quant.**
 
-- **Why this run exists.** [`qwen3-8-27b-nvfp4-vllm-mtp-c32`](qwen3-8-27b-nvfp4-vllm-mtp-c32) measured
+- **Why this run exists.** [`qwen3-8-27b-nvfp4-vllm-mtp-c32`]({{ site.baseurl }}/configs/qwen3-8-27b-nvfp4-vllm-mtp-c32/) measured
   ~54% draft acceptance against the 70–85% rule of thumb and the Qwen3.6-27B sibling's 67%. The leading
   explanation was a **draft/target precision mismatch**: unsloth leaves `re:^mtp.*` in BF16 while the
   target MLPs are NVFP4 W4A4. This config swaps the target to official FP8 — a far smaller gap to a
@@ -50,7 +50,7 @@ independent of target quant.**
   MTP head just predicts general chat worse than Qwen3.6's did (~13 points worse). Recorded as a
   model property, not a serving misconfiguration. Nothing to fix on the run side.
 - **Throughput (conc 32):** prefill **264.6** / decode **203.0** tok/s; **793/1000, 0 errors**, hit the
-  900 s cap. Versus [FP8 base](qwen3-8-27b-fp8-vllm-c32)'s 196.3 / 143.9 that is **+34.8% prefill,
+  900 s cap. Versus [FP8 base]({{ site.baseurl }}/configs/qwen3-8-27b-fp8-vllm-c32/)'s 196.3 / 143.9 that is **+34.8% prefill,
   +41.1% decode**.
 - **MTP pays off MORE on the slower quant — +41% on FP8 vs +31% on NVFP4.** Same head, same acceptance,
   different base: FP8 decode is the more compute-bound path, so replacing decode steps with drafted

@@ -34,6 +34,6 @@ run_command: |
 - **Result (conc 4):** prefill 56.89 / decode **35.54** tok/s aggregate; **0 errors**; peak mem 106.4 GB.
 - **Still near-linear** (9.33 → 18.11 → 35.54 at c1/2/4 ≈ ×1.94/×1.96) — the dense 27B stays bandwidth-bound
   through conc-4, so the batch buys almost proportional aggregate decode. MTP-vs-base delta on the
-  [`-mtp-c4`](qwen3-6-27b-nvfp4-vllm-mtp-c4) page.
-- Sweep siblings (base): [`-c1`](qwen3-6-27b-nvfp4-vllm-c1) · [`-c2`](qwen3-6-27b-nvfp4-vllm-c2) ·
-  [`-c8`](qwen3-6-27b-nvfp4-vllm-c8) · [`-c16`](qwen3-6-27b-nvfp4-vllm-c16) · [`c32` (main)](qwen3-6-27b-nvfp4-vllm).
+  [`-mtp-c4`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c4/) page.
+- Sweep siblings (base): [`-c1`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c1/) · [`-c2`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c2/) ·
+  [`-c8`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c8/) · [`-c16`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c16/) · [`c32` (main)]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm/).

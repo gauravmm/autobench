@@ -31,7 +31,7 @@ run_command: |
 ---
 
 **Single-stream floor for the 27B: 11.3 tok/s per stream (TPOT 88.5 ms), TTFT 177 ms.** The
-non-speculative conc-1 baseline; [`+MTP`](qwen3-8-27b-nvfp4-vllm-mtp-c1) doubles it.
+non-speculative conc-1 baseline; [`+MTP`]({{ site.baseurl }}/configs/qwen3-8-27b-nvfp4-vllm-mtp-c1/) doubles it.
 
 - **Result (conc 1):** decode **11.16** tok/s aggregate, TPOT median **88.5 ms** (≈11.3 tok/s
   per-stream — at conc-1 the two agree, which is the point of the config), TTFT median **177.1 ms**,

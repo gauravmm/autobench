@@ -41,6 +41,6 @@ run_command: |
   single-stream decode on the dense model (vs the MoE's more modest +25.6%), because the dense target has the
   spare-nothing single-stream that spec-decode helps most.
 - TPOT/TTFT are the usual conc-1 single-stream figures; decode tok/s is the reported metric.
-- Sweep siblings (base): [`-c2`](qwen3-6-27b-nvfp4-vllm-c2) · [`-c4`](qwen3-6-27b-nvfp4-vllm-c4) ·
-  [`-c8`](qwen3-6-27b-nvfp4-vllm-c8) · [`-c16`](qwen3-6-27b-nvfp4-vllm-c16) · [`c32` (main)](qwen3-6-27b-nvfp4-vllm).
-  MTP counterpart: [`-mtp-c1`](qwen3-6-27b-nvfp4-vllm-mtp-c1).
+- Sweep siblings (base): [`-c2`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c2/) · [`-c4`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c4/) ·
+  [`-c8`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c8/) · [`-c16`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c16/) · [`c32` (main)]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm/).
+  MTP counterpart: [`-mtp-c1`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c1/).

@@ -56,9 +56,9 @@ n=11 via the small-page drafter, one-boot sweep. **0 errors.**
   mixed-workload gateway — now with no context caveat.
 - One server lifetime for the whole six-point sweep → mem is the single ~111.3 GB reservation. TPOT 0.0 =
   `qwen3` reasoning-parser client artifact.
-- Series: [`c1` (main)](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash) ·
-  [`c2`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c2) ·
-  [`c4`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c4) ·
-  [`c8`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c8) ·
-  [`c32`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32). Matched MTP:
-  [`-mtp-c16`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c16).
+- Series: [`c1` (main)]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/) ·
+  [`c2`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c2/) ·
+  [`c4`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c4/) ·
+  [`c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c8/) ·
+  [`c32`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32/). Matched MTP:
+  [`-mtp-c16`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c16/).

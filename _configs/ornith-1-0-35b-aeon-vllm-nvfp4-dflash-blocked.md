@@ -53,12 +53,12 @@ run_command: |
 > an assert dodge. The Ornith config itself was not re-run, but it is the same image + target family, so the same lever
 > applies. **The real reason to stay on MTP is throughput economics, not a block** — DFlash wins only conc-1 (+8.5% on
 > the official model) and loses under load (MTP's ~66%/3-of-3 draft efficiency beats DFlash's ~25%/3.7-of-11). Measured
-> pages: [`…official…dflash`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash),
-> [`…heretic…dflash`](qwen3-6-35b-a3b-heretic-aeon-vllm-ultimate-dflash). The original (now-corrected) analysis follows.
+> pages: [`…official…dflash`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/),
+> [`…heretic…dflash`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-heretic-aeon-vllm-ultimate-dflash/). The original (now-corrected) analysis follows.
 
 **BLOCKED with AEON's *required* (post-04-19, sw 4096 / 8 kv-heads) drafter — DFlash + this hybrid MoE trips the same
 KV-cache page-size unification assert that blocked the
-[Qwen3.5-122B-A10B DFlash run](qwen3-5-122b-a10b-vllm-int4-autoround-dflash-c8). The assert is real and reproduces;
+[Qwen3.5-122B-A10B DFlash run]({{ site.baseurl }}/configs/qwen3-5-122b-a10b-vllm-int4-autoround-dflash-c8/). The assert is real and reproduces;
 what was wrong (see banner) is the claim that the small-page-drafter fix only dodges it — it actually serves.**
 
 **Boot gets all the way through drafter load, then asserts during KV setup:**
@@ -121,6 +121,6 @@ but because it isn't worth an external drafter + a forbidden drafter revision + 
 > AEON fork** — evidently patched in their image. External draft speculators *do* work on this GDN target on this box;
 > they're just not throughput-competitive with MTP on mixed prompts.
 
-> Cross-ref: [`qwen3-5-122b-a10b-vllm-int4-autoround-dflash-c8`](qwen3-5-122b-a10b-vllm-int4-autoround-dflash-c8)
+> Cross-ref: [`qwen3-5-122b-a10b-vllm-int4-autoround-dflash-c8`]({{ site.baseurl }}/configs/qwen3-5-122b-a10b-vllm-int4-autoround-dflash-c8/)
 > (same assert, unblocked by a draft-revision pin) and `notes/INCOMPATIBILITIES.md` (hybrid+spec KV
 > unification wall).

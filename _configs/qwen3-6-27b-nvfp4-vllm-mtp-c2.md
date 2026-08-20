@@ -31,7 +31,7 @@ run_command: |
     --speculative-config '{"method":"mtp","num_speculative_tokens":3}'
 ---
 
-**conc-2 MTP point of the Qwen3.6-27B NVFP4 sweep** — paired with the matched base [`-c2`](qwen3-6-27b-nvfp4-vllm-c2)
+**conc-2 MTP point of the Qwen3.6-27B NVFP4 sweep** — paired with the matched base [`-c2`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c2/)
 for the base-vs-MTP speedup-decay curve (EXPERIMENTS.md #14).
 
 - **Result (conc 2):** prefill 56.13 / decode **35.68** tok/s aggregate; **0 errors**; peak mem 109.4 GB.
@@ -41,5 +41,5 @@ for the base-vs-MTP speedup-decay curve (EXPERIMENTS.md #14).
 - **Acceptance ~68%, accept-len ~3.0-of-3** — the MTP draft is highly efficient (per-position 0.85/0.69/0.55),
   matching the -c8 row's ~71%. Acceptance is workload-driven and batch-stable here (unlike the gpt-oss EAGLE3
   low-batch pathology).
-- Sweep: base [`-c2`](qwen3-6-27b-nvfp4-vllm-c2) · MTP [`-c1`](qwen3-6-27b-nvfp4-vllm-mtp-c1) ·
-  [`-c4`](qwen3-6-27b-nvfp4-vllm-mtp-c4) · [`-c8`](qwen3-6-27b-nvfp4-vllm-mtp-c8) · [`c32`](qwen3-6-27b-nvfp4-vllm-mtp).
+- Sweep: base [`-c2`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c2/) · MTP [`-c1`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c1/) ·
+  [`-c4`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c4/) · [`-c8`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c8/) · [`c32`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp/).

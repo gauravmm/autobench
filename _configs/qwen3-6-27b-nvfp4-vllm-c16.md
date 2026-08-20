@@ -35,7 +35,7 @@ run_command: |
 - **The full base decode curve:** 9.33 → 18.11 → 35.54 → 67.06 → 116.57 → 187.74 tok/s at c1/2/4/8/16/32.
   Scaling factor per doubling falls from ~1.94 (c1→2) to **1.74** (c8→16) to **1.61** (c16→32) — the dense 27B
   transitions from bandwidth-bound (near-linear) toward compute-bound (diminishing returns) as the batch fills.
-- **MTP-vs-base delta** on the [`-mtp-c16`](qwen3-6-27b-nvfp4-vllm-mtp-c16) page — this is where spec-decode's
+- **MTP-vs-base delta** on the [`-mtp-c16`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c16/) page — this is where spec-decode's
   edge is expected to compress, since a filling dense batch leaves less spare compute for the draft.
-- Sweep siblings (base): [`-c1`](qwen3-6-27b-nvfp4-vllm-c1) · [`-c2`](qwen3-6-27b-nvfp4-vllm-c2) ·
-  [`-c4`](qwen3-6-27b-nvfp4-vllm-c4) · [`-c8`](qwen3-6-27b-nvfp4-vllm-c8) · [`c32` (main)](qwen3-6-27b-nvfp4-vllm).
+- Sweep siblings (base): [`-c1`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c1/) · [`-c2`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c2/) ·
+  [`-c4`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c4/) · [`-c8`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c8/) · [`c32` (main)]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm/).

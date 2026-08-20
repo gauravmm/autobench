@@ -61,7 +61,7 @@ Qwen3.6]); kept at the user's explicit request.
 **Result (conc 8, ShareGPT, 15-min cap):** prefill **115.66 tok/s**, decode **107.43 tok/s**, 385
 completed, **0 errors**, hit the time cap at 915 s. TTFT median 681 ms, TPOT median 67.5 ms.
 - **DFlash speedup: ~1.26×** decode vs the non-spec base (85.5 → 107.43 tok/s at the same conc-8 —
-  see [`qwen3-5-122b-a10b-vllm-int4-autoround`](qwen3-5-122b-a10b-vllm-int4-autoround)).
+  see [`qwen3-5-122b-a10b-vllm-int4-autoround`]({{ site.baseurl }}/configs/qwen3-5-122b-a10b-vllm-int4-autoround/)).
 - **Spec acceptance:** mean acceptance length **~3.2–3.3** of `num_speculative_tokens=5`; **avg draft
   acceptance ~44%** (per-position 0.78 / 0.56 / 0.39 / 0.29 / 0.21 — healthy first-token accept, expected
   decay). That's in the **<50% band typical for a separate (non-MTP/EAGLE) draft on general ShareGPT
@@ -141,7 +141,7 @@ of "vLLM assertion on heterogeneous cache groups" that blocks Gemma-4 MTP, but a
 
 **Note:** Qwen3.5 is superseded by Qwen3.6 (see the callout above); this was a user-requested standalone
 datapoint, not part of the core list. **Follow-up done & hypothesis CONFIRMED:** the base model serves
-fine **without** DFlash — see [`qwen3-5-122b-a10b-vllm-int4-autoround`](qwen3-5-122b-a10b-vllm-int4-autoround)
+fine **without** DFlash — see [`qwen3-5-122b-a10b-vllm-int4-autoround`]({{ site.baseurl }}/configs/qwen3-5-122b-a10b-vllm-int4-autoround/)
 (decode 85.5 tok/s, conc-8, 0 errors). Dropping the `--speculative-config` removes the draft's KV spec and
 the hybrid GDN+full-attn cache **unifies cleanly** — proving it is specifically the **third (DFlash draft)
 KV spec** that vLLM can't reconcile, not the two-way hybrid base. **Follow-up (2026-06-24): the draft KV

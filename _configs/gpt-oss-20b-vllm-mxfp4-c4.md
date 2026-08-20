@@ -37,5 +37,5 @@ run_command: |
   peak mem 108.4 GB.
 - Anchors the base line for the EAGLE3 artifact test at conc-4. Base line so far: 83.4 (c2) → 127.3 (c4).
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric.
-- Base siblings: [`-c2`](gpt-oss-20b-vllm-mxfp4-c2) · [`-c16`](gpt-oss-20b-vllm-mxfp4-c16) ·
-  [`c32` (main)](gpt-oss-20b-vllm-mxfp4). EAGLE3 counterpart: [`-eagle3-c4`](gpt-oss-20b-vllm-mxfp4-eagle3-c4).
+- Base siblings: [`-c2`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c2/) · [`-c16`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c16/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4/). EAGLE3 counterpart: [`-eagle3-c4`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c4/).

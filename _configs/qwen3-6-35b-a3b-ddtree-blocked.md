@@ -42,7 +42,7 @@ prefix with `past_key_values.crop(start)` after every block. That rollback is th
   rewindable state; recurrent layers don't provide it without explicit per-step checkpointing.
 - **This is the same GatedDeltaNet wall seen elsewhere.** The AEON vLLM fork only runs DFlash on this model by
   purpose-building a unified attention page (block size 1136) that reconciles the draft's small page with the
-  mamba/GDN page (see [`…ultimate-dflash`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash)). The research harness
+  mamba/GDN page (see [`…ultimate-dflash`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/)). The research harness
   has no such integration, and **no serving engine implements DDTree at all**.
 
 **Consequence for the money chart:** the DDTree line **cannot be measured for Qwen3.6-35B-A3B on the Spark
@@ -53,5 +53,5 @@ fork extended to trees). Neither exists.
 **What we measured instead:** DDTree on the harness's own **non-hybrid** target
 `Qwen/Qwen3-Coder-30B-A3B-Instruct` (`qwen3_moe`, standard attention) + `z-lab/Qwen3-Coder-30B-A3B-DFlash` —
 a same-size MoE and a coding workload — giving the real tree-vs-single-line-DFlash accept-len + single-stream
-speedup on this box. See [`qwen3-coder-30b-a3b-ddtree`](qwen3-coder-30b-a3b-ddtree). The dense Qwen3.6-27B
-(`qwen3_5`, also hybrid) is blocked for the identical reason — [`…27b-ddtree-blocked`](qwen3-6-27b-ddtree-blocked).
+speedup on this box. See [`qwen3-coder-30b-a3b-ddtree`]({{ site.baseurl }}/configs/qwen3-coder-30b-a3b-ddtree/). The dense Qwen3.6-27B
+(`qwen3_5`, also hybrid) is blocked for the identical reason — [`…27b-ddtree-blocked`]({{ site.baseurl }}/configs/qwen3-6-27b-ddtree-blocked/).

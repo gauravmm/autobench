@@ -39,6 +39,6 @@ run_command: |
 - **Acceptance unchanged ~26%** (mean accept-len ~3.85-of-11, per-position 0.78/0.55/0.40/0.30/…/0.05) — flat across the whole c1→c128 DFlash sweep, workload-driven. The ceiling is draft-efficiency economics + drafter memory, never draft quality.
 - **Bottom line for the post:** across the full extended ladder DFlash **tops out first and lowest** of the six lines — plateaus by c64 and can't hold c128 in memory — while native MTP keeps climbing to c128 in a fraction of the memory. Stay on native MTP.
 - **Image (UNTRUSTED, pinned):** `ghcr.io/aeon-7/aeon-vllm-ultimate@sha256:be9e05a1…`, NO creds, read-only mounts, loopback port.
-- Series: [`c1`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash) … [`c32`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32) · [`c64`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c64) · matched MTP [`-mtp-c128`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c128).
+- Series: [`c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/) … [`c32`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c32/) · [`c64`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash-c64/) · matched MTP [`-mtp-c128`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c128/).
 </content>
 </invoke>

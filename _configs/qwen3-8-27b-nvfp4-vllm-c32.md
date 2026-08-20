@@ -47,7 +47,7 @@ no flags beyond `--dtype bfloat16`.** The model landed 2026-08-14; `vllm/vllm-op
 - **This checkpoint silently gets an FP8 KV cache, and it doubles KV capacity.** unsloth's
   `quantization_config` carries a `kv_cache_scheme` (static per-tensor E4M3, `num_bits: 8`), so vLLM's
   `kv_cache_dtype=auto` resolves to FP8 KV — nothing on the command line says so. Against the official
-  [`Qwen/Qwen3.8-27B-FP8`](qwen3-8-27b-fp8-vllm-c32) repo, which carries **no** `kv_cache_scheme` and
+  [`Qwen/Qwen3.8-27B-FP8`]({{ site.baseurl }}/configs/qwen3-8-27b-fp8-vllm-c32/) repo, which carries **no** `kv_cache_scheme` and
   therefore runs a BF16 KV cache, the same ~70 GiB reservation buys **2,128,554 vs 1,046,391 tokens —
   almost exactly 2×** (32.5× vs 16.0× max concurrency at 65536 ctx). Worth knowing before reading any
   NVFP4-vs-FP8 memory comparison on this model: they are not serving the same KV precision.
@@ -67,11 +67,11 @@ no flags beyond `--dtype bfloat16`.** The model landed 2026-08-14; `vllm/vllm-op
   this keeps it comparable to the rest of the sweep.
 - **Speculative options, checked at benchmark time (2026-08-15):**
   - **MTP — available in-repo.** `text_config.mtp_num_hidden_layers: 1`. Benchmarked in
-    [`qwen3-8-27b-nvfp4-vllm-mtp-c32`](qwen3-8-27b-nvfp4-vllm-mtp-c32).
+    [`qwen3-8-27b-nvfp4-vllm-mtp-c32`]({{ site.baseurl }}/configs/qwen3-8-27b-nvfp4-vllm-mtp-c32/).
   - **DFlash — does not exist yet.** z-lab publishes DFlash drafters for Qwen3.5-27B, Qwen3.6-27B and
     Qwen3.6-35B-A3B, but their newest push is 2026-07-05 (Alpamayo) and there is **no Qwen3.8 drafter**
     on HF at all. Worth re-checking — this model is one day old.
-  - **DDTree — blocked, same wall as [`qwen3-6-27b-ddtree-blocked`](qwen3-6-27b-ddtree-blocked).** It
+  - **DDTree — blocked, same wall as [`qwen3-6-27b-ddtree-blocked`]({{ site.baseurl }}/configs/qwen3-6-27b-ddtree-blocked/).** It
     needs a DFlash drafter (none) *and* the harness verifies blocks via `past_key_values.crop(start)`,
     which the recurrent GatedDeltaNet state cannot support. Identical architecture, identical block.
 - **Repo choice.** Trusted-repo policy: NVIDIA publishes no NVFP4 for this model (as with the 27B

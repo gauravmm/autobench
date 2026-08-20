@@ -40,9 +40,9 @@ base instead of only conc-32. Same NVIDIA ModelOpt NVFP4 recipe as the published
   was a short-cap sampling artifact. With that correction the MTP-vs-base ratio is a **robust ~+25–30%**
   across the sweep — +32.5% (c1) / +42.4% (c2) / +33.8% (c4) / **+25.7% (c8)** / +30.3% (c16) / +25.7% (c32)
   — essentially flat with a modest **low-batch (c2–c4) bump**, NOT a monotone decay (full discussion on the
-  [`-c16` page](qwen3-6-35b-a3b-nvfp4-vllm-c16)). **DFlash at conc-8** (269.9) = +11.6% over base, positive
+  [`-c16` page]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c16/)). **DFlash at conc-8** (269.9) = +11.6% over base, positive
   but below MTP.
 - TPOT 0.0 = `qwen3` reasoning-parser client artifact — decode tok/s is the reported metric.
-- Sweep siblings: [`-c1`](qwen3-6-35b-a3b-nvfp4-vllm-c1) · [`-c2`](qwen3-6-35b-a3b-nvfp4-vllm-c2) ·
-  [`-c4`](qwen3-6-35b-a3b-nvfp4-vllm-c4) · [`-c16`](qwen3-6-35b-a3b-nvfp4-vllm-c16) ·
-  [`c32` (main)](qwen3-6-35b-a3b-nvfp4-vllm). MTP counterpart: [`-mtp-c8`](qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8).
+- Sweep siblings: [`-c1`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c1/) · [`-c2`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c2/) ·
+  [`-c4`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c4/) · [`-c16`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c16/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm/). MTP counterpart: [`-mtp-c8`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c8/).

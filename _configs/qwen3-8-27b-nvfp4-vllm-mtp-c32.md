@@ -39,7 +39,7 @@ run_command: |
 predecessor's, and that gap is the interesting result here.**
 
 - **Result (conc 32):** prefill **352.6** / decode **274.7** tok/s aggregate vs the
-  [NVFP4 base](qwen3-8-27b-nvfp4-vllm-c32)'s 270.6 / 210.0 — **+30.3% prefill, +30.8% decode**.
+  [NVFP4 base]({{ site.baseurl }}/configs/qwen3-8-27b-nvfp4-vllm-c32/)'s 270.6 / 210.0 — **+30.3% prefill, +30.8% decode**.
   **1000/1000, 0 errors, 866.5 s** — the full entry count inside the cap (the base run hit the cap only
   because of its 571 s cold download; here the weights were already cached, 440 s load). TPOT median
   drops 144.1 → **108.0 ms**; TTFT rises 456 → 857 ms (the draft head costs prefill latency per request
@@ -52,7 +52,7 @@ predecessor's, and that gap is the interesting result here.**
   predecessor under identical conditions. Two candidate explanations, neither confirmed:
   1. ~~**Draft/target precision mismatch.**~~ unsloth leaves `re:^mtp.*` unquantized (BF16) while the
      target MLPs are NVFP4 W4A4, so a BF16 draft predicting for a W4A4 target should diverge more than
-     a matched pair. **Tested and REFUTED** — [`qwen3-8-27b-fp8-vllm-mtp-c32`](qwen3-8-27b-fp8-vllm-mtp-c32)
+     a matched pair. **Tested and REFUTED** — [`qwen3-8-27b-fp8-vllm-mtp-c32`]({{ site.baseurl }}/configs/qwen3-8-27b-fp8-vllm-mtp-c32/)
      re-ran the same head against the official FP8 target (much closer to BF16) with everything else
      held fixed and measured **~56% acceptance / mean length 2.7** — within noise of this run's 54% /
      2.6. Precision is not the cause.
@@ -69,5 +69,5 @@ predecessor's, and that gap is the interesting result here.**
 - **Graph capture took 24 s** here vs 7 s for the base (the MTP path captures more shapes), and the
   cold load was 440 s with weights already cached.
 - **No DFlash / DDTree alternative exists for this model** — see the
-  [base config](qwen3-8-27b-nvfp4-vllm-c32) for the checks. MTP is the only speculative path available
+  [base config]({{ site.baseurl }}/configs/qwen3-8-27b-nvfp4-vllm-c32/) for the checks. MTP is the only speculative path available
   for Qwen3.8-27B as of 2026-08-15.

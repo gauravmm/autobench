@@ -47,4 +47,4 @@ agg) and the conc-1 sibling.
 - **600 s-cap recheck (2026-07-01):** this page's 289.14 was a 300 s / 500-prompt run; a matched **600 s-cap
   re-measurement gave decode 304.0 tok/s** (718/1000, 0 err) — the extra samples lift it slightly. Used the
   600 s value (**+25.7% over the matched base c8**) when drawing the base-vs-MTP curve, which removes the
-  apparent c8 "dip"; see [`-vllm-c16`](qwen3-6-35b-a3b-nvfp4-vllm-c16) Notes.
+  apparent c8 "dip"; see [`-vllm-c16`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-c16/) Notes.

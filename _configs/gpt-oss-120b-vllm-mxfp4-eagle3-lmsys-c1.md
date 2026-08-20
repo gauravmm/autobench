@@ -56,6 +56,6 @@ still trails SGLang.** gpt-oss-120b MXFP4 + `lmsys/EAGLE3-gpt-oss-120b-bf16` on 
   number likely *understates* what the LMSYS draft can do on vLLM at high batch — **the conc-32 point is the
   decisive one** (see `-lmsys-c32`).
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric.
-- Cross-ref: [`-lmsys-c32`](gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c32) · vLLM+NVIDIA
-  [`eagle3`](gpt-oss-120b-vllm-mxfp4-eagle3) · SGLang+LMSYS
-  [`sglang-eagle3-c1`](gpt-oss-120b-sglang-mxfp4-eagle3-c1) · base [`vllm-mxfp4`](gpt-oss-120b-vllm-mxfp4).
+- Cross-ref: [`-lmsys-c32`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4-eagle3-lmsys-c32/) · vLLM+NVIDIA
+  [`eagle3`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4-eagle3/) · SGLang+LMSYS
+  [`sglang-eagle3-c1`]({{ site.baseurl }}/configs/gpt-oss-120b-sglang-mxfp4-eagle3-c1/) · base [`vllm-mxfp4`]({{ site.baseurl }}/configs/gpt-oss-120b-vllm-mxfp4/).

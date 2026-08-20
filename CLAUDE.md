@@ -51,6 +51,8 @@ DGX Spark**. Live state = the `_configs/` pages + homepage listing; no separate 
   `status: pending | blocked | done`. `engine_image` = pinned `repo:tag@sha256:<digest>` (map in
   `notes/BENCHMARKING.md`). Homepage sorts done (newest) → pending → blocked.
 - `_archive/configs/` — `git mv` a page here to hide it without losing data (excluded in `_config.yml`).
+- **Cross-config links must be `[text]({{ site.baseurl }}/configs/<slug>/)`** — a bare `[text](slug)`
+  resolves against `/configs/<this-page>/` and 404s (permalink is `/configs/:name/`).
 - **Tag taxonomy = 7 categories:** concurrency (`conc-N`) · model (per-model slug, FIRST in `tags:`,
   identical across a model's configs) · lab · family · quant · size-bucket
   (`≤4B`/`5-15B`/`16-40B`/`41-130B`/`130B+`) · `Spark recipe`. Engine is a field, NOT a tag.

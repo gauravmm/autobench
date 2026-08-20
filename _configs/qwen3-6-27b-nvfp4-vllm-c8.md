@@ -34,8 +34,8 @@ run_command: |
 - **Result (conc 8):** prefill 68.25 / decode **67.06** tok/s aggregate; **0 errors**; peak mem 107.1 GB.
 - **Scaling starts to bend by conc-8** (9.33 → 18.11 → 35.54 → 67.06 at c1/2/4/8 ≈ ×1.94/×1.96/×1.89) — still
   strong but no longer perfectly linear as the dense 27B begins to fill the compute.
-- **MTP speedup at conc-8:** MTP [`-mtp-c8`](qwen3-6-27b-nvfp4-vllm-mtp-c8) 109.05 vs this base 67.06 =
+- **MTP speedup at conc-8:** MTP [`-mtp-c8`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c8/) 109.05 vs this base 67.06 =
   **+62.6%** — the dense model keeps a large MTP win at moderate batch (vs the 35B-A3B MoE's ~+20% at c8),
   because a dense target has less spare compute to lose to draft overhead. MTP accepts ~71% / accept-len ~3.1.
-- Sweep siblings (base): [`-c1`](qwen3-6-27b-nvfp4-vllm-c1) · [`-c2`](qwen3-6-27b-nvfp4-vllm-c2) ·
-  [`-c4`](qwen3-6-27b-nvfp4-vllm-c4) · [`-c16`](qwen3-6-27b-nvfp4-vllm-c16) · [`c32` (main)](qwen3-6-27b-nvfp4-vllm).
+- Sweep siblings (base): [`-c1`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c1/) · [`-c2`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c2/) ·
+  [`-c4`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c4/) · [`-c16`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c16/) · [`c32` (main)]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm/).

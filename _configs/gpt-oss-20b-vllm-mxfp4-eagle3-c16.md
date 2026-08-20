@@ -40,7 +40,7 @@ RedHatAI EAGLE3 speculator on vLLM, conc 16.
 
 - **Result (conc 16):** prefill 552.54 / decode **431.75** tok/s aggregate; **993/1000 prompts, 7 errors**,
   finished in 551.7 s (did NOT hit the cap — a near-full clean sample); peak mem 108.1 GB.
-- **EAGLE3 vs base at conc-16: +26.7%** (431.75 vs base [340.69](gpt-oss-20b-vllm-mxfp4-c16)). Combined with
+- **EAGLE3 vs base at conc-16: +26.7%** (431.75 vs base [340.69]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c16/)). Combined with
   the low-conc losses the sweep is **−29.3% (c2) → −32.9% (c4) → +26.7% (c16) → +28.2% (c32)** — the sign
   flip lives between c4 and c16.
 - **Acceptance jumps to ~44% — and it's genuinely concurrency-driven.** Across 19/20 windows mean accept-len
@@ -61,6 +61,6 @@ RedHatAI EAGLE3 speculator on vLLM, conc 16.
   win is real, not artifactual. Revisit the INCOMPATIBILITIES "acceptance ~5%, concurrency-degrading" note,
   which was measured only on the low-conc truncated runs.
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric.
-- Sweep: [`-c1`](gpt-oss-20b-vllm-mxfp4-eagle3-c1) · [`-c2`](gpt-oss-20b-vllm-mxfp4-eagle3-c2) ·
-  [`-c4`](gpt-oss-20b-vllm-mxfp4-eagle3-c4) · [`-c8`](gpt-oss-20b-vllm-mxfp4-eagle3-c8) ·
-  [`c32` (main)](gpt-oss-20b-vllm-mxfp4-eagle3). Base: [`-c16`](gpt-oss-20b-vllm-mxfp4-c16).
+- Sweep: [`-c1`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c1/) · [`-c2`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c2/) ·
+  [`-c4`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c4/) · [`-c8`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c8/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3/). Base: [`-c16`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c16/).

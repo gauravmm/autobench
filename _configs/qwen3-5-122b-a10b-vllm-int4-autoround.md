@@ -33,7 +33,7 @@ run_command: |
 ---
 
 **DONE — Qwen3.5-122B-A10B int4-AutoRound-EC WITHOUT DFlash serves cleanly.** The non-speculative
-counterpart to the [blocked DFlash config](qwen3-5-122b-a10b-vllm-int4-autoround-dflash-c8) — and it
+counterpart to the [blocked DFlash config]({{ site.baseurl }}/configs/qwen3-5-122b-a10b-vllm-int4-autoround-dflash-c8/) — and it
 **resolves the open question that page left**: the draft's KV spec was indeed the trigger for the
 unification failure.
 

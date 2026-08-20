@@ -56,5 +56,5 @@ run_command: |
 - **TPOT 0.0** is the same client artifact (fork's `reasoning` field); decode tok/s is the real number.
 
 This is the trusted, DFlash-off baseline. DFlash (AEON's headline ~1.9× claim) does **not** boot on this
-hybrid model — see [DFlash-blocked](ornith-1-0-35b-aeon-vllm-nvfp4-dflash-blocked) for the root cause and
+hybrid model — see [DFlash-blocked]({{ site.baseurl }}/configs/ornith-1-0-35b-aeon-vllm-nvfp4-dflash-blocked/) for the root cause and
 the likely unblock (pin the draft to its pre-retrain small-page revision).

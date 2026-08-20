@@ -23,7 +23,7 @@ run_command: |
   # Same GatedDeltaNet rollback wall as the 35B-A3B.
 ---
 
-**BLOCKED — same hybrid GatedDeltaNet wall as [`qwen3-6-35b-a3b-ddtree-blocked`](qwen3-6-35b-a3b-ddtree-blocked).**
+**BLOCKED — same hybrid GatedDeltaNet wall as [`qwen3-6-35b-a3b-ddtree-blocked`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-ddtree-blocked/).**
 Qwen3.6-27B is `model_type: qwen3_5` (`Qwen3_5ForConditionalGeneration`) — the dense member of the same
 Qwen3.5/3.6 family, with the **same interleaved GatedDeltaNet linear-attention + full-attention** stack. The
 DDTree/DFlash harness verifies speculative blocks by `past_key_values.crop(start)` after each block, which a
@@ -32,4 +32,4 @@ the target forward fails identically. No serving engine implements DDTree, and t
 hybrid-cache/state-checkpoint path.
 
 The measurable DDTree datapoint on the Spark is on the harness-supported non-hybrid target — see
-[`qwen3-coder-30b-a3b-ddtree`](qwen3-coder-30b-a3b-ddtree).
+[`qwen3-coder-30b-a3b-ddtree`]({{ site.baseurl }}/configs/qwen3-coder-30b-a3b-ddtree/).

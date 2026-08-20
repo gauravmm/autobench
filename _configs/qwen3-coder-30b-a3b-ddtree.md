@@ -72,7 +72,7 @@ there's a budget optimum.** Qwen3-Coder-30B-A3B (bf16, batch-1) on the paper's h
 - **Proxy target.** This is Qwen3-**Coder**-30B-A3B (standard-attention `qwen3_moe`), not our Qwen3.6-35B-A3B
   (hybrid GDN) — those are architecturally blocked in this harness (`qwen3-6-35b-a3b-ddtree-blocked`).
 - **Workload:** mt-bench (chat prompts on a coding model). The coding-workload contrast (does acceptance climb
-  toward the paper's code numbers?) is the HumanEval run — [`…-ddtree-humaneval`](qwen3-coder-30b-a3b-ddtree-humaneval).
+  toward the paper's code numbers?) is the HumanEval run — [`…-ddtree-humaneval`]({{ site.baseurl }}/configs/qwen3-coder-30b-a3b-ddtree-humaneval/).
 
-Cross-ref: blocked hybrids [`35b-a3b`](qwen3-6-35b-a3b-ddtree-blocked) · [`27b`](qwen3-6-27b-ddtree-blocked) ·
+Cross-ref: blocked hybrids [`35b-a3b`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-ddtree-blocked/) · [`27b`]({{ site.baseurl }}/configs/qwen3-6-27b-ddtree-blocked/) ·
 `notes/INCOMPATIBILITIES.md` (DDTree harness section) · runner `scripts/bench-ddtree.sh`.

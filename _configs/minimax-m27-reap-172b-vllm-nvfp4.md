@@ -67,6 +67,6 @@ flashinfer_cutlass *rejects* — so it is forced onto marlin. Same architecture,
 because of the activation-quant choice. `--quantization` is auto-detected as `modelopt_fp4`; only
 `--trust-remote-code` + `--kv-cache-dtype fp8` are passed explicitly.
 
-**Pair:** single-stream sibling at [conc-1 / 160K]({{ '/configs/minimax-m27-reap-172b-vllm-nvfp4-c1' | relative_url }})
+**Pair:** single-stream sibling at [conc-1 / 160K]({{ '/configs/minimax-m27-reap-172b-vllm-nvfp4-c1/' | relative_url }})
 — the live `:4000` interactive gateway. Same `engine_image`, same checkpoint, same cutlass recipe; only
 the operating point (context / concurrency / util / parsers) differs.

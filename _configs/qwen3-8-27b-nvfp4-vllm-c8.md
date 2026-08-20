@@ -48,6 +48,6 @@ run_command: |
   single user's experience is only ~15% worse at c8 than alone on the box. **c8 is the sweet spot for a
   small multi-user deployment**: near-linear aggregate gain with almost no per-stream latency cost.
 - **Memory 107.3 GB**, within noise of the c1 (105.4) and c32 (104.1) runs — the reservation is set by
-  `gpu-memory-utilization`, not concurrency. See the [conc-32 base](qwen3-8-27b-nvfp4-vllm-c32) for the
+  `gpu-memory-utilization`, not concurrency. See the [conc-32 base]({{ site.baseurl }}/configs/qwen3-8-27b-nvfp4-vllm-c32/) for the
   resident breakdown and the silent FP8-KV-cache note.
 - Served text-only (`mm_served: false`), consistent with the rest of the sweep.

@@ -67,5 +67,5 @@ DFlash n=11 via the small-page drafter, util 0.85.
 
 **Recommendation: native MTP.** DFlash is *not blocked* on this hybrid target — that earlier conclusion is corrected —
 but on a mixed (ShareGPT) workload it's net-negative vs MTP on the heretic checkpoint. Cross-ref:
-[`…official…dflash`](qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash) (the production checkpoint, wins conc-1),
-[`…dflash-blocked`](ornith-1-0-35b-aeon-vllm-nvfp4-dflash-blocked), `notes/INCOMPATIBILITIES.md`.
+[`…official…dflash`]({{ site.baseurl }}/configs/qwen3-6-35b-a3b-nvfp4-vllm-ultimate-dflash/) (the production checkpoint, wins conc-1),
+[`…dflash-blocked`]({{ site.baseurl }}/configs/ornith-1-0-35b-aeon-vllm-nvfp4-dflash-blocked/), `notes/INCOMPATIBILITIES.md`.

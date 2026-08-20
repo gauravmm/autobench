@@ -37,12 +37,12 @@ conc 4.
 
 - **Result (conc 4):** prefill 127.09 / decode **85.36** tok/s aggregate; 212/1000 prompts (hit the 600 s
   cap), **15 harmony errors**; peak mem 109.2 GB.
-- **EAGLE3 vs base at conc-4: −32.9%** (85.36 vs base [127.26](gpt-oss-20b-vllm-mxfp4-c4)) — *worse* than the
+- **EAGLE3 vs base at conc-4: −32.9%** (85.36 vs base [127.26]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c4/)) — *worse* than the
   conc-2 loss (−29.3%). The spec penalty deepens as the batch fills, exactly the wrong direction for a real
   draft win. Running total for #15: **−29.3% (c2) → −32.9% (c4)**, both strongly negative.
 - **Acceptance dismal:** mean accept-len **~1.15**, avg draft acceptance **~5%** — the draft converts almost
   nothing on this ShareGPT+harmony workload, so it's pure overhead.
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric.
-- Sweep: [`-c1`](gpt-oss-20b-vllm-mxfp4-eagle3-c1) · [`-c2`](gpt-oss-20b-vllm-mxfp4-eagle3-c2) ·
-  [`-c8`](gpt-oss-20b-vllm-mxfp4-eagle3-c8) · [`-c16`](gpt-oss-20b-vllm-mxfp4-eagle3-c16) ·
-  [`c32` (main)](gpt-oss-20b-vllm-mxfp4-eagle3). Base: [`-c4`](gpt-oss-20b-vllm-mxfp4-c4).
+- Sweep: [`-c1`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c1/) · [`-c2`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c2/) ·
+  [`-c8`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c8/) · [`-c16`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c16/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3/). Base: [`-c4`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c4/).

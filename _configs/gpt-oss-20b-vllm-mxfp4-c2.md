@@ -42,5 +42,5 @@ run_command: |
   This base row is half of that measurement at conc-2.
 - **TTFT/TPOT are buffered-reasoning chat-path artifacts** (vLLM emits the harmony reasoning channel in one
   burst) — the aggregate decode tok/s is the valid metric.
-- Base siblings: [`-c4`](gpt-oss-20b-vllm-mxfp4-c4) · [`-c16`](gpt-oss-20b-vllm-mxfp4-c16) ·
-  [`c32` (main)](gpt-oss-20b-vllm-mxfp4). EAGLE3 counterpart: [`-eagle3-c2`](gpt-oss-20b-vllm-mxfp4-eagle3-c2).
+- Base siblings: [`-c4`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c4/) · [`-c16`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c16/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4/). EAGLE3 counterpart: [`-eagle3-c2`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c2/).

@@ -33,6 +33,6 @@ run_command: |
 
 - **Result (conc 2):** prefill 30.58 / decode **18.11** tok/s aggregate; **0 errors**; peak mem 105.9 GB.
 - **Clean ~2× scaling from conc-1** (9.33 → 18.11) — the dense 27B is still bandwidth-bound at conc-2, so
-  doubling the batch nearly doubles aggregate decode. MTP-vs-base delta is on the [`-mtp-c2`](qwen3-6-27b-nvfp4-vllm-mtp-c2) page.
-- Sweep siblings (base): [`-c1`](qwen3-6-27b-nvfp4-vllm-c1) · [`-c4`](qwen3-6-27b-nvfp4-vllm-c4) ·
-  [`-c8`](qwen3-6-27b-nvfp4-vllm-c8) · [`-c16`](qwen3-6-27b-nvfp4-vllm-c16) · [`c32` (main)](qwen3-6-27b-nvfp4-vllm).
+  doubling the batch nearly doubles aggregate decode. MTP-vs-base delta is on the [`-mtp-c2`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-mtp-c2/) page.
+- Sweep siblings (base): [`-c1`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c1/) · [`-c4`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c4/) ·
+  [`-c8`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c8/) · [`-c16`]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm-c16/) · [`c32` (main)]({{ site.baseurl }}/configs/qwen3-6-27b-nvfp4-vllm/).

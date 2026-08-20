@@ -38,13 +38,13 @@ pairing with the EAGLE3 conc-1 row for the low-batch loss comparison.
 - **Full base line now complete c1→c32:** decode 45.56 (c1) → 83.4 (c2) → 127.3 (c4) → 212.5 (c8) →
   340.7 (c16) → 535.3 (c32) — clean monotone scaling, no dip.
 - **The EAGLE3-vs-base "inverted" pathology now has a gap-free curve.** Against this base, EAGLE3 decode
-  ([`-eagle3-c1`](gpt-oss-20b-vllm-mxfp4-eagle3-c1) at 38.55) is **−15.4%** at conc-1 — a real loss even
+  ([`-eagle3-c1`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c1/) at 38.55) is **−15.4%** at conc-1 — a real loss even
   single-stream, not the neutral/break-even point one might expect from a bandwidth-bound regime. Full
   curve: **−15.4% (c1) → −29.3% (c2) → −32.9% (c4) → −40.6% (c8) → +26.8% (c16) → +28.2% (c32)** — EAGLE3
   is a loss at every batch size up to c8, and only turns positive at c16/c32, tracking the acceptance
   jump documented in `notes/INCOMPATIBILITIES.md` (~5% accept at conc≤8 vs ~44% at conc≥16).
 - **TTFT/TPOT are buffered-reasoning artifacts** — aggregate decode tok/s is the valid metric.
-- Base siblings: [`-c2`](gpt-oss-20b-vllm-mxfp4-c2) · [`-c4`](gpt-oss-20b-vllm-mxfp4-c4) ·
-  [`-c8`](gpt-oss-20b-vllm-mxfp4-c8) · [`-c16`](gpt-oss-20b-vllm-mxfp4-c16) ·
-  [`c32` (main)](gpt-oss-20b-vllm-mxfp4). EAGLE3 counterpart:
-  [`-eagle3-c1`](gpt-oss-20b-vllm-mxfp4-eagle3-c1).
+- Base siblings: [`-c2`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c2/) · [`-c4`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c4/) ·
+  [`-c8`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c8/) · [`-c16`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-c16/) ·
+  [`c32` (main)]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4/). EAGLE3 counterpart:
+  [`-eagle3-c1`]({{ site.baseurl }}/configs/gpt-oss-20b-vllm-mxfp4-eagle3-c1/).
