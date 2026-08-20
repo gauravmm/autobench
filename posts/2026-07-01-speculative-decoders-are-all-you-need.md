@@ -247,6 +247,24 @@ Where the workload already suits DFlash (code), DDTree performs about the same. 
 
 This is new technology, hot off the presses, so it isn't in vLLM or [SGLang](https://github.com/sgl-project/sglang/discussions/24605). Watch this closely; it's likely going to be a huge part of the future.
 
+### The catch — engine bugs
+
+The speculation math is *lossless* by construction, and adding a drafter should never change what it answers. The catch is that the code delivering that guarantee is young, always changing, and it tends to break when brand-new model architectures are added. [Rule 3: Drafters are brittle](#drafters-are-brittle) applies here too.
+
+These failures surface as failures on launch, unimplemented kernels, unexpected slowdowns, or in the worst-case, quietly wrong output. We repeatedly encountered these errors during our work. Notably:
+
+**Qwen 3.6 + MTP may silently emit incorrect output on vLLM.** These are being tracked as malformed tool calls ([#35800](https://github.com/vllm-project/vllm/issues/35800)) and, worse, output collapsing into gibberish ([#36872](https://github.com/vllm-project/vllm/issues/36872)). The only known fix for is turning MTP off.
+
+When we deployed Qwen 3.6 to run on our own machine, we encountered this exact problem. Thankfully, Qwen is quick enough on [single-stream inference](https://gauravmm.github.io/autobench/configs/qwen3-6-35b-a3b-nvfp4-vllm-c1/) — 74.7 tok/s with MTP off — that MTP is not a strict requirement.
+
+**Qwen 3.6's hybrid attention breaks DFlash/DDTree.** The special attention design of Qwen 3.6 35B-A3B MoE greatly speeds up inference, but makes it much harder to rewind to the last accepted token on token rejection. This leads to blocked runs on [DFlash](https://gauravmm.github.io/autobench/configs/ornith-1-0-35b-aeon-vllm-nvfp4-dflash-blocked/) and [DDTree](https://gauravmm.github.io/autobench/configs/qwen3-6-35b-a3b-ddtree-blocked/).
+
+**Gemma-4's E4B MTP drafter fought the attention kernel.** Native MTP was blocked on vLLM because it was missing a hand-written kernel that could supports both the attention model and the drafter at NVFP4 quantization.
+
+**gpt-oss's harmony channel breaks with EAGLE3.** gpt-oss speaks in structured "harmony" channels, and EAGLE3 corrupts the channel itself, failing requests rather than slowing them. More subtle bugs exist, such as model output collapse ([#27626](https://github.com/vllm-project/vllm/issues/27626)) — drafter on, accuracy gone, tok/s none the wiser.
+
+This pattern repeats across all of our testing. The engine support for MTPs should be treated as brittle, and trusted only when you have tested the specific combination of versions and hardware on a workload that reflects your actual use-case.
+
 ## The future
 
 ### Diffusion-based Models

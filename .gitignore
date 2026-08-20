@@ -26,3 +26,4 @@ __pycache__/
 
 # generated charts (regenerate via assets/make_plots.py)
 posts/assets/plots/
+scratchlogs/
