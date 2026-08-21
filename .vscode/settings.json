@@ -1,0 +1,6 @@
+{
+  "markdown.marp.themes": [
+    "posts/slides/themes/speculative-decoders.css"
+  ],
+  "markdown.marp.enableHtml": true
+}

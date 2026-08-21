@@ -1,174 +1,51 @@
 ---
 marp: true
-theme: default
+theme: speculative-decoders
 paginate: true
 footer: "On Speculative Decoders — gauravmm.github.io/autobench/posts/2026-07-01-speculative-decoders-are-all-you-need/"
 ---
 
-<style>
-/* softaworks marp-slide structure, styled after Roast My Tech Stack's Metropolyst deck. */
-:root {
-  --paper: #fcfcfa;
-  --ink: #333333;
-  --blue: #1c58a1;
-  --blue-soft: #ddeeff;
-  --blue-muted: #acc1da;
-  --line: #d8dde5;
-  --red: #b33a3a;
-}
-
-section {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  box-sizing: border-box;
-  border-top: 12px solid var(--blue);
-  font-size: 21px;
-  line-height: 1.38;
-  padding: 58px 64px 54px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: var(--blue);
-  font-weight: 700;
-  margin: 0;
-}
-
-h1 { font-size: 54px; line-height: 1.12; }
-
-h2 {
-  font-size: 36px;
-  line-height: 1.15;
-  margin-bottom: 30px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--blue-muted);
-}
-
-h3 {
-  color: var(--ink);
-  font-size: 25px;
-  margin: 22px 0 8px;
-}
-
-ul, ol { padding-left: 30px; }
-li { margin-bottom: 8px; }
-li::marker { color: var(--blue); }
-
-code {
-  background: #eef2f7;
-  color: var(--blue);
-  padding: 2px 5px;
-  border-radius: 4px;
-  font-family: 'Roboto Mono', Consolas, monospace;
-  font-size: 0.9em;
-}
-
-a { color: var(--blue); }
-strong { color: var(--blue); font-weight: 700; }
-
-footer {
-  color: #667085;
-  font-size: 12px;
-  position: absolute;
-  left: 64px;
-  bottom: 21px;
-}
-
-section::after {
-  color: var(--blue);
-  font-size: 13px;
-  right: 64px;
-  bottom: 20px;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: 18px;
-}
-th {
-  background: var(--blue);
-  color: white;
-  font-weight: 700;
-}
-th, td {
-  border: 1px solid var(--line);
-  padding: 7px 10px;
-}
-tr:nth-child(even) td { background: #f3f6fa; }
-
-.callout {
-  background: var(--blue-soft);
-  border-left: 6px solid var(--blue);
-  border-radius: 8px;
-  padding: 15px 20px;
-  margin-top: 22px;
-}
-
-.big {
-  color: var(--blue);
-  font-size: 44px;
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-section.lead {
-  background: var(--blue);
-  border-top: 12px solid var(--blue-muted);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-right: 180px;
-}
-section.lead h1 { color: white; margin-bottom: 24px; }
-section.lead p { color: #e8f0fa; font-size: 25px; }
-section.lead strong { color: white; }
-section.lead footer, section.lead::after { color: #dce8f7; }
-
-section.focus {
-  background: #dbdce5;
-  border-top-color: var(--blue);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-section.focus h2 { border: 0; font-size: 48px; }
-
-/* Deck tweaks */
-img { max-width: 100%; }
-</style>
-
 <!-- _class: lead -->
 
-# On Speculative Decoders
+# On Speculative Decoding
 
-199 completed configs · one NVIDIA DGX Spark · measured, not marketed
+199 benchmarks · one NVIDIA DGX Spark
 
-<span style="font-size:16px; color:#dce8f7;">
+<span class="title-meta">
 Results: gauravmm.github.io/autobench · Spark provided by Ray Aun Fan
 </span>
 
 ---
 
-## Start here
+## Speculative decoding helps local LLMs the most
 
-- Use the model's **MTP path** when it has one
-- Otherwise, test a **model-matched EAGLE3** draft
-- Heavy external drafters are strongest at **low concurrency**
-- Pick the fast **quant and engine first**
+- A **speculative decoder** is a small, cheap model that _guesses the next few tokens_
+  - The big ("target") model verifies;
+  - accepted guesses are nearly free, rejected guesses fall back to the slow pass.
 
-<div class="callout">Every number below is measured on one DGX Spark and linked to its run.</div>
+- Speculative decoding helps most under low-concurrency use on a single machine.
+  - Trade a little local compute for the chance to skip some target passes
+
+<!--
+Inference-speed wins are mostly found at datacenter scale, through giant batches,
+disaggregation, huge KV pools, and efficient interconnects.
+-->
 
 ---
 
-## One machine changes the game
+## Use the model's **MTP path** when it has one
 
-- Datacenter wins — giant batches, disaggregation, huge KV pools — do not transfer cleanly to one machine
-- Speculative decoding trades a little local compute for fewer expensive target passes
-- A **speculative decoder** (draft model, drafter, speculator) is a small, cheap model that *guesses the next few tokens*
-- The big ("target") model verifies; accepted guesses are nearly free
+That's the simplest and most reliable solution.
+
+Otherwise:
+
+- Pick the fastest **quant and engine first**
+  - Trade-off hardware support, software bugs, model performance.
+- Then measure your **concurrency**
+  - For local use, assume `c=1` is most important
+- Then use public benchmarks to shortlist.
+- Use your own evals to benchmark on your specific use-case.
+  - Code vs Chat, JSON vs TOML, etc. make _huge_ differences.
 
 ---
 
@@ -176,21 +53,21 @@ Results: gauravmm.github.io/autobench · Spark provided by Ray Aun Fan
 
 Draft → verify → accept prefix, stop at first disagreement:
 
-<table>
-<tr>
-<td style="background:#eef2f7;"><code style="background:none;">I saw her duck</code></td>
-<td style="background:#e5f4ea;"><span style="color:#287a44;">under the</span></td>
-<td style="background:#f8e7e7;"><span style="color:#b33a3a;"><b>table</b></span></td>
-<td style="background:#eef2f7;"><span style="color:#667085;">.</span></td>
-</tr>
-<tr>
-<td style="background:#eef2f7;"><code style="background:none;">I saw her duck</code></td>
-<td colspan="3" style="background:#ddeeff;"><span style="color:#1c58a1;">target: under the</span><b style="color:#1c58a1;"> branch</b></td>
-</tr>
+<table class="token-flow">
+  <tr>
+    <td class="token-context"><code class="plain-code">I saw her duck</code></td>
+    <td class="token-accepted"><span class="accepted">under the</span></td>
+    <td class="token-rejected"><strong class="rejected">table</strong></td>
+    <td class="token-context"><span class="muted">.</span></td>
+  </tr>
+  <tr>
+    <td class="token-context"><code class="plain-code">I saw her duck</code></td>
+    <td class="token-target" colspan="3"><span class="target">target: under the <strong>branch</strong></span></td>
+  </tr>
 </table>
 
-- Row 1 — <span style="color:#287a44;">**under the**</span> accepted; <span style="color:#b33a3a;">**table**</span> rejected; tail discarded
-- Row 2 — in the same pass, the target generates <span style="color:#1c58a1;">**branch**</span>
+- Row 1 — <strong class="accepted">under the</strong> accepted; <strong class="rejected">table</strong> rejected; tail discarded
+- Row 2 — in the same pass, the target generates <strong class="target">branch</strong>
 - High-entropy forks are exactly where drafts die
 
 ---
@@ -207,9 +84,9 @@ Draft → verify → accept prefix, stop at first disagreement:
 ## Four flavours
 
 - **MTP** — prediction heads shipped in the model, or a matched assistant exposed through the engine's MTP path; usually lightest
-- **EAGLE3** — a *separate* draft head grafted into the model; quality depends entirely on **which draft you load**
+- **EAGLE3** — a _separate_ draft head grafted into the model; quality depends entirely on **which draft you load**
 - **DFlash** — external diffusion-based drafter, up to 16 tokens per step; high fixed cost, chance of huge speedups
-- **DDTree** *(emerging)* — DFlash's block draft rebuilt as a **tree** of continuations, verified in one pass
+- **DDTree** _(emerging)_ — DFlash's block draft rebuilt as a **tree** of continuations, verified in one pass
 - Fast-moving field — new speculators are appearing continuously
 
 ---
@@ -230,11 +107,10 @@ Draft → verify → accept prefix, stop at first disagreement:
 
 - Qwen3.6-35B-A3B NVFP4: DFlash narrowly wins conc-1; **MTP leads from conc-2** and reaches [~750 tok/s at conc-128](https://gauravmm.github.io/autobench/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp-c128/)
 - Heavy DFlash drafter beats the no-spec baseline **only at low batch**
-- From conc-32 on, DFlash sits *below* the no-drafter baseline (407 vs 431 tok/s)
-- The crossover curve belongs to the *drafter's cost*, not to speculation itself
+- From conc-32 on, DFlash sits _below_ the no-drafter baseline (407 vs 431 tok/s)
+- The crossover curve belongs to the _drafter's cost_, not to speculation itself
 
 ---
-
 
 ## Rule 2 — agreement pays
 
@@ -268,7 +144,7 @@ Change any one and the win can evaporate — or the launch can fail outright
 
 - The drafter is judged by the target's token choices and fed by the target's own KV cache
 - Two showcase cases ahead: an engine swap (43-point swing) and a draft swap (also 43 points)
-- Before picking a drafter: test it in the *exact* configuration you'll run
+- Before picking a drafter: test it in the _exact_ configuration you'll run
 
 ---
 
@@ -284,7 +160,7 @@ Four Qwen3.6 MTP runs (conc-32, vLLM), slowest base first:
 | 35B-A3B · NVFP4 | [430.8](https://gauravmm.github.io/autobench/configs/qwen3-6-35b-a3b-nvfp4-vllm/) → [541.3](https://gauravmm.github.io/autobench/configs/qwen3-6-35b-a3b-nvfp4-vllm-mtp/) | **+26%** |
 
 - Two knobs move the target's cost: **quant** (slower FP8 gains more than fast NVFP4) and **architecture** (dense gains more than MoE)
-- Flip side (Rule 5): NVFP4 *without* a speculator (430.8) still beats FP8 *with* MTP (407.9)
+- Flip side (Rule 5): NVFP4 _without_ a speculator (430.8) still beats FP8 _with_ MTP (407.9)
 - **Pick the fast quant first, then add the drafter**
 
 ---
@@ -299,7 +175,7 @@ A speculative decoder is a **multiplier, not a fix**. Three plain bases beat a f
 | Qwen3.8-27B NVFP4 → [**210.0** tok/s](https://gauravmm.github.io/autobench/configs/qwen3-8-27b-nvfp4-vllm-c32/) | FP8 + MTP → [203.0 tok/s](https://gauravmm.github.io/autobench/configs/qwen3-8-27b-fp8-vllm-mtp-c32/) |
 | gpt-oss-120b MXFP4 on vLLM → [**252.8** tok/s](https://gauravmm.github.io/autobench/configs/gpt-oss-120b-vllm-mxfp4/) | SGLang + EAGLE3 → [171.9 tok/s](https://gauravmm.github.io/autobench/configs/gpt-oss-120b-sglang-mxfp4-eagle3-c32/) |
 
-- Get the quant and engine right *first*
+- Get the quant and engine right _first_
 - Speculation compounds a good setup; it can't paper over a bad one
 
 ---
@@ -310,7 +186,7 @@ A speculative decoder is a **multiplier, not a fix**. Three plain bases beat a f
 
 - Qwen3.6 + Qwen3.8 + Gemma-4, base vs +MTP at conc-32 on vLLM
 - MTP adds **+26% to +94%** — peaking at Gemma-4-E4B FP8 ([1262 tok/s](https://gauravmm.github.io/autobench/configs/gemma-4-e4b-it-vllm-fp8-mtp/))
-- Which method you even *get* is largely decided by the family: MTP only where the lab baked in a head
+- Which method you even _get_ is largely decided by the family: MTP only where the lab baked in a head
 
 ---
 
@@ -357,7 +233,7 @@ Engine details still bite: 27B NVFP4 + MTP gains [+46% on vLLM](https://gauravmm
 | 26B-A4B · NVFP4 | 421.1 | [**697.0**](https://gauravmm.github.io/autobench/configs/gemma-4-26b-a4b-it-vllm-nvfp4-mtp/) | +66% | [596.3](https://gauravmm.github.io/autobench/configs/gemma-4-26b-a4b-it-vllm-nvfp4-eagle3/) | +42% |
 | 31B · NVFP4 | 167.0 | [**323.5**](https://gauravmm.github.io/autobench/configs/gemma-4-31b-it-vllm-nvfp4-mtp/) | +94% | [264.7](https://gauravmm.github.io/autobench/configs/gemma-4-31b-it-vllm-nvfp4-eagle3/) | +59% |
 
-*(E4B FP8 and 12B NVFP4 have no usable EAGLE3 head; MTP alone still posts +45% / +55%.)*
+_(E4B FP8 and 12B NVFP4 have no usable EAGLE3 head; MTP alone still posts +45% / +55%.)_
 
 ---
 
@@ -388,7 +264,7 @@ No native MTP head, so EAGLE3 is the only option — and where the draft-weights
 | vLLM · NVIDIA draft | [252.8](https://gauravmm.github.io/autobench/configs/gpt-oss-120b-vllm-mxfp4/) → [138.5](https://gauravmm.github.io/autobench/configs/gpt-oss-120b-vllm-mxfp4-eagle3/) | **−45%** |
 
 - **R3**: on the same model and engine, swapping draft weights moves **43 points** (NVIDIA draft ~9% accept → LMSYS/SpecForge ~29%)
-- **R5**: SGLang + EAGLE3 (171.9) is ~32% below vLLM with *no speculation* (252.8)
+- **R5**: SGLang + EAGLE3 (171.9) is ~32% below vLLM with _no speculation_ (252.8)
 - Within vLLM, the LMSYS draft reaches 246.7: nearly neutral, still below base
 - The fastest gpt-oss-120b we measured: **vLLM, no spec**
 
@@ -396,10 +272,10 @@ No native MTP head, so EAGLE3 is the only option — and where the draft-weights
 
 ## Qwen3-Coder — DFlash & DDTree
 
-DFlash on chat is dead weight: 2.25 of 16 accepted → **0.92×**. The *same* drafter on templated code (HumanEval): **[7.96 of 16](https://gauravmm.github.io/autobench/configs/qwen3-coder-30b-a3b-ddtree-humaneval/) → 2.7×**.
+DFlash on chat is dead weight: 2.25 of 16 accepted → **0.92×**. The _same_ drafter on templated code (HumanEval): **[7.96 of 16](https://gauravmm.github.io/autobench/configs/qwen3-coder-30b-a3b-ddtree-humaneval/) → 2.7×**.
 
 - **R2/R3** — the workload alone decides whether a high-cost drafter is waste or the fastest thing on the box
-- Why: DFlash bets everything on *one* long continuation; its probability decays to nothing
+- Why: DFlash bets everything on _one_ long continuation; its probability decays to nothing
 
 **DDTree** (arXiv 2604.12989): rebuild the block draft as a tree of ~64 candidate paths, verify together — a hedge against that brittleness:
 
@@ -408,7 +284,7 @@ DFlash on chat is dead weight: 2.25 of 16 accepted → **0.92×**. The *same* dr
 | chat: speedup | — | 0.92× | [**1.12×**](https://gauravmm.github.io/autobench/configs/qwen3-coder-30b-a3b-ddtree/) | 0.94× |
 | code: speedup | — | 2.7× | [**2.8×**](https://gauravmm.github.io/autobench/configs/qwen3-coder-30b-a3b-ddtree-humaneval/) | 2.3× |
 
-- DDTree *rescues* chat (0.92× → 1.12×); on code it does about the same as DFlash
+- DDTree _rescues_ chat (0.92× → 1.12×); on code it does about the same as DFlash
 - Paper claims 8.22× on HumanEval; we measure ~2.8× — speedup tracks spare compute
 - Not in vLLM or SGLang yet — research-harness numbers at batch-1
 
@@ -436,7 +312,7 @@ The five rules, as a one-minute checklist:
 4. Slowest configs gain the most **relative** speedup
 5. Pick the fast **quant and engine first** — a multiplier can't rescue a bad base
 
-- None of this substitutes for benchmarking *your* model on *your* workload
+- None of this substitutes for benchmarking _your_ model on _your_ workload
 - These numbers: one machine, a handful of engines, two datasets — Rule 3 is a standing warning
 - Measure decode rate at **the concurrency you actually run**, on prompts that look like your traffic
 
@@ -447,6 +323,6 @@ The five rules, as a one-minute checklist:
 - Fast-moving on both sides: new speculators (trees, diffusion drafters, drafter-assisted prefill) and target models that fold speculation into their architecture
 - The right answer six months from now isn't on this page yet
 
-<span style="font-size:16px; color:#8b949e;">
+<span class="deck-meta">
 All results: gauravmm.github.io/autobench · post: "On Speculative Decoders" · DGX Spark by Ray Aun Fan, benchmarked autonomously by Opus 4.8
 </span>
